@@ -1,0 +1,34 @@
+{
+  "name": "closure-compile-file",
+  "version": "1.0.0",
+  "description": "A wrapper of google-closure-compile for compiling files",
+  "main": "index.ts",
+  "scripts": {
+    "tsc": "tsc",
+    "tslint": "tslint -c tslint.json src/**/*.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/reecemillsom/closure-compile-file.git"
+  },
+  "keywords": [
+    "closure-compiler",
+    "closure-compile-file",
+    "file-compiler"
+  ],
+  "author": "Reece Millsom",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/reecemillsom/closure-compile-file/issues"
+  },
+  "homepage": "https://github.com/reecemillsom/closure-compile-file#readme",
+  "devDependencies": {
+    "@types/google-closure-compiler": "0.0.18",
+    "tslint": "^5.11.0",
+    "typescript": "^3.1.6"
+  },
+  "dependencies": {
+    "google-closure-compiler": "^20181028.0.1"
+  }
+}
