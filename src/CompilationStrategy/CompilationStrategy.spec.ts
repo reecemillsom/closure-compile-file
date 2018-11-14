@@ -36,30 +36,30 @@ describe("CompilationStrategy", () => {
 
     });
 
-  describe("when asked to compile simple", () => {
+	describe("when asked to compile simple", () => {
 
-	it("will call compile on the simple class", () => {
+		it("will call compile on the simple class", () => {
 
-	  compilationStrategy.compile('simple', 'file.jpg', './test');
+		  compilationStrategy.compile('simple', 'file.jpg', './test');
 
-	  expect(compilationStrategy.compilationLevels.simple.compile).toBeCalledTimes(1);
-	  expect(compilationStrategy.compilationLevels.simple.compile).toHaveBeenCalledWith('file.jpg', './test');
+		  expect(compilationStrategy.compilationLevels.simple.compile).toBeCalledTimes(1);
+		  expect(compilationStrategy.compilationLevels.simple.compile).toHaveBeenCalledWith('file.jpg', './test');
 
-	});
-
-  });
-
-  describe("when asked to compile whitespace", () => {
-
-	it("will call compile on the whitespace class", () => {
-
-	  compilationStrategy.compile('whitespace', 'file.jpg', './test');
-
-	  expect(compilationStrategy.compilationLevels.whitespace.compile).toBeCalledTimes(1);
-	  expect(compilationStrategy.compilationLevels.whitespace.compile).toHaveBeenCalledWith('file.jpg', './test');
+		});
 
 	});
 
-  });
+	describe("when asked to compile whitespace", () => {
+
+		it("will call compile on the whitespace class", () => {
+
+		  compilationStrategy.compile('whitespace', 'file.jpg', './test');
+
+		  expect(compilationStrategy.compilationLevels.whitespace.compile).toBeCalledTimes(1);
+		  expect(compilationStrategy.compilationLevels.whitespace.compile).toHaveBeenCalledWith('file.jpg', './test');
+
+		});
+
+	});
 
 });
