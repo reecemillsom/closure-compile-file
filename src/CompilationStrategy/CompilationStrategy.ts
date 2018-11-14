@@ -4,14 +4,14 @@ import {Whitespace} from "../CompilationLevels/Whitespace/Whitespace";
 
 export default class CompilationStrategy {
 
-  private compilationLevels: any;
+  public compilationLevels: any;
 
   constructor() {
 
     this.compilationLevels = {
-      whitespace: Whitespace,
-	  simple: Simple,
-	  advanced: Advanced
+      whitespace: new Whitespace(),
+	  simple: new Simple(),
+	  advanced: new Advanced()
 	};
 
   }
@@ -19,9 +19,7 @@ export default class CompilationStrategy {
 
   compile(compilationLevel: string, files: string | string[], outputDestination: string) {
 
-  	const level = new this.compilationLevels[compilationLevel]();
-
-	return level.compile(files, outputDestination);
+	return this.compilationLevels[compilationLevel].compile(files, outputDestination);
 
   }
 

@@ -13,4 +13,7 @@ module.exports = {
 	coverageReporters: ["text"],
 	moduleFileExtensions: ["ts", "js"],
 	testMatch: ['<rootDir>/src/**/*.spec.ts'],
+	transform: {
+		"^.+\\.tsx?$": "ts-jest",
+	},
 };

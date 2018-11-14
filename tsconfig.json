@@ -1,12 +1,13 @@
 {
-  "include": ["../src/**/*.ts", "./index.ts"],
+  "include": ["./src/**/*.ts", "./index.ts"],
   "exclude": ["./node_modules", "./dist"],
   "compilerOptions": {
     "module": "commonjs",
     "moduleResolution": "node",
     "outDir": "./dist",
     "strict": true,
-    "target": "es6",
-    "watch": true
+    "target": "es5",
+    "lib": ["es6"],
+    "watch": false
   }
 }
