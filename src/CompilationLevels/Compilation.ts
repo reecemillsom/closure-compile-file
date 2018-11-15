@@ -1,3 +1,3 @@
 export default interface Compilation {
-  compile: (files: string | string[], outputDestination: string) => any;
+  compile: (files: string[], outputDestination: string) => any;
 }

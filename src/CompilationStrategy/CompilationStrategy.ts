@@ -17,7 +17,7 @@ export default class CompilationStrategy {
   }
 
 
-  compile(compilationLevel: string, files: string | string[], outputDestination: string) {
+  compile(compilationLevel: string, files: string[], outputDestination: string) {
 
 	return this.compilationLevels[compilationLevel].compile(files, outputDestination);
 

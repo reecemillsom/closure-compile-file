@@ -5,6 +5,7 @@ export class Simple implements Compilation {
 
   constructor(){}
 
-  compile(files: string | string[], outputDestination: string) {}
+  //TODO when using compiler, flags needed at least are compilationLevel, jsOutputFile, JS as array of strings.
+  compile(files: string[], outputDestination: string) {}
 
 }
