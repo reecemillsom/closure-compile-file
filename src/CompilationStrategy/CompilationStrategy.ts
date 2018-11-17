@@ -1,5 +1,6 @@
+const ClosureCompiler = require('google-closure-compiler').jsCompiler;
 import {Advanced} from "../CompilationLevels/Advanced/Advanced";
-import {Simple} from "../CompilationLevels/Simple/Simple";
+import Simple from "../CompilationLevels/Simple/Simple";
 import {Whitespace} from "../CompilationLevels/Whitespace/Whitespace";
 
 export default class CompilationStrategy {
@@ -10,7 +11,7 @@ export default class CompilationStrategy {
 
     this.compilationLevels = {
       whitespace: new Whitespace(),
-	  simple: new Simple(),
+	  simple: new Simple(ClosureCompiler),
 	  advanced: new Advanced()
 	};
 

@@ -1,7 +1,8 @@
-import CompilationStrategy from "./CompilationStrategy";
 import AdvancedMock from "../CompilationLevels/Advanced/AdvancedMock";
 import SimpleMock from "../CompilationLevels/Simple/SimpleMock";
 import WhitespaceMock from "../CompilationLevels/Whitespace/WhitespaceMock";
+import GoogleClosureCompilerMock from "../GoogleClosureCompiler/GoogleClosureCompileMock";
+import CompilationStrategy from "./CompilationStrategy";
 
 describe("CompilationStrategy", () => {
 
@@ -12,9 +13,9 @@ describe("CompilationStrategy", () => {
 		compilationStrategy = new CompilationStrategy();
 
 		compilationStrategy.compilationLevels = {
-			whitespace: new WhitespaceMock(),
-		  	simple: new SimpleMock(),
-		  	advanced: new AdvancedMock()
+			whitespace: new WhitespaceMock(GoogleClosureCompilerMock as any),
+		  	simple: new SimpleMock(GoogleClosureCompilerMock as any),
+		  	advanced: new AdvancedMock(GoogleClosureCompilerMock as any)
 		};
 
 		compilationStrategy.compilationLevels.whitespace.compile = jest.fn();
