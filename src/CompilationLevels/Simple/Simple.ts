@@ -3,17 +3,18 @@ import {Compilation, File} from "../Compilation";
 
 export class Simple implements Compilation {
 
-  public googleClosureCompiler: any;
+  public closureCompiler: any;
 
-  constructor(private GoogleClosureCompiler: any) {
+  //TODO maybe move instantiation of google closure compiler here. Means i can mock functions on the object.
+  constructor(private googleClosureCompiler: any) {
 
-    this.googleClosureCompiler = GoogleClosureCompiler;
+    this.closureCompiler = googleClosureCompiler;
 
   }
 
   compile(files: File[], outputDestination: string) {
 
-    this.initialiseGoogleCompiler();
+    // this.initialiseGoogleCompiler();
 
 	files.forEach((file: File) => {
 
@@ -25,11 +26,11 @@ export class Simple implements Compilation {
 
 	  if (!FsService.doesPathExist(outputDestination)) {
 
-		FsService.createDirectory(outputDestination);
+	  	FsService.createDirectory(outputDestination);
 
 	  }
 
-	  this.googleClosureCompiler.run([{
+	  this.closureCompiler.run([{
 	  	src: contents
 	  }], this.handleOutput.bind(this, file, outputDestination));
 
