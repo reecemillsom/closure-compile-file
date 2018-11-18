@@ -2,7 +2,7 @@
   "name": "closure-compile-file",
   "version": "1.0.0",
   "description": "A wrapper of google-closure-compile for compiling files",
-  "main": "index.ts",
+  "main": "dist/index.ts",
   "scripts": {
     "tsc": "tsc",
     "tslint": "tslint -c tslint.json src/**/*.ts",

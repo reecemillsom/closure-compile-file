@@ -8,7 +8,7 @@ var CompilationStrategy = /** @class */ (function () {
     function CompilationStrategy() {
         this.compilationLevels = {
             whitespace: new Whitespace_1.Whitespace(),
-            simple: new Simple_1.default(ClosureCompiler),
+            simple: new Simple_1.Simple(ClosureCompiler),
             advanced: new Advanced_1.Advanced()
         };
     }

@@ -7,7 +7,7 @@ describe("Simple", function () {
     var simple;
     beforeAll(function () {
         ClosureCompiler = GoogleClosureCompileMock_1.default;
-        simple = new Simple_1.default(ClosureCompiler);
+        simple = new Simple_1.Simple(ClosureCompiler);
     });
     describe("when asked to initialise", function () {
         it("will assign google compiler", function () {
@@ -16,7 +16,7 @@ describe("Simple", function () {
     });
     describe("when asked to compile", function () {
         it("will initialise the google compiler", function () {
-            simple.compile(['file1.jpg'], "./output");
+            simple.compile([{ src: 'some src files', output: 'some output file' }], "./output");
             expect(simple.googleClosureCompiler).toBeInstanceOf(GoogleClosureCompileMock_1.default);
         });
     });

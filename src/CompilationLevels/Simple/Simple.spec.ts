@@ -1,5 +1,5 @@
 import GoogleClosureCompileMock from "../../GoogleClosureCompiler/GoogleClosureCompileMock";
-import Simple from "./Simple";
+import {Simple} from "./Simple";
 
 describe("Simple", () => {
 
@@ -28,7 +28,7 @@ describe("Simple", () => {
 
         it("will initialise the google compiler", () => {
 
-            simple.compile(['file1.jpg'], "./output");
+            simple.compile([{src: 'some src files', output: 'some output file'}], "./output");
 
             expect(simple.googleClosureCompiler).toBeInstanceOf(GoogleClosureCompileMock);
 

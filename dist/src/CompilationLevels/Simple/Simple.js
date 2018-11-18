@@ -6,38 +6,47 @@ var Simple = /** @class */ (function () {
         this.GoogleClosureCompiler = GoogleClosureCompiler;
         this.googleClosureCompiler = GoogleClosureCompiler;
     }
-    //TODO when using compiler, flags needed at least are compilationLevel, jsOutputFile, JS as array of strings.
-    //TODO change any array to string array
     Simple.prototype.compile = function (files, outputDestination) {
-        this.initialiseGoogleCompiler(files, outputDestination);
-        console.log('closureCompiler>', this.googleClosureCompiler);
-        //TODO check this is correct. Probably have to run through all contents in the array reading the path and outputting
-        //TODO the data.
-        var contents = FsService_1.FsService.readFileContents(files[0].src);
-        FsService_1.FsService.createDirectory('./test');
-        console.log('contents>', contents);
-        this.googleClosureCompiler.run([{
-                src: contents
-            }], function (exitCode, output, error) {
-            console.log('exitCode>', exitCode);
-            console.log('output>', output);
-            console.log('error>', error);
+        var _this = this;
+        this.initialiseGoogleCompiler(outputDestination);
+        files.forEach(function (file) {
+            var contents = FsService_1.FsService.readFileContents(file.src, {
+                encoding: 'utf8',
+                flag: 'r'
+            });
+            if (!FsService_1.FsService.doesPathExist(outputDestination)) {
+                FsService_1.FsService.createDirectory(outputDestination);
+            }
+            _this.googleClosureCompiler.run([{
+                    src: contents
+                }], _this.handleOutput.bind(_this, file, outputDestination));
         });
-        // this.googleClosureCompiler.run([{
-        //   path: files[0].path,
-        //   src: files[0].src,
-        // }],(exitCode: string, output: string, error: string) => {
-        //   console.log('exitCode>', exitCode);
-        //   console.log('output>', output);
-        //   console.log('error>', error);
-        // });
     };
-    Simple.prototype.initialiseGoogleCompiler = function (files, outputDestination) {
+    Simple.prototype.initialiseGoogleCompiler = function (outputDestination) {
+        //TODO maybe I don't need to specify the js_output_file? Because writing contents to file.
         this.googleClosureCompiler = new this.googleClosureCompiler({
             compilation_level: "SIMPLE",
             js_output_file: outputDestination,
         });
     };
+    Simple.prototype.handleOutput = function (file, outputDestination, exitCode, output, error) {
+        if (error) {
+            throw new Error("Exiting with code " + exitCode + " error: " + error);
+        }
+        if (FsService_1.FsService.doesPathExist(outputDestination + "/" + file.output)) {
+            return FsService_1.FsService.writeFileContents(outputDestination + "/" + file.output, output[0].src, {
+                encoding: 'utf8',
+                flag: 'a',
+                mode: 438
+            });
+        }
+        FsService_1.FsService.writeFileContents(outputDestination + "/" + file.output, output[0].src, {
+            encoding: 'utf8',
+            flag: 'w',
+            mode: 438
+        });
+    };
+    ;
     return Simple;
 }());
-exports.default = Simple;
+exports.Simple = Simple;

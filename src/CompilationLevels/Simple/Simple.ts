@@ -1,7 +1,7 @@
 import {FsService} from "../../FsService/FsService";
-import Compilation from "../Compilation";
+import {Compilation, File} from "../Compilation";
 
-export default class Simple implements Compilation {
+export class Simple implements Compilation {
 
   public googleClosureCompiler: any;
 
@@ -11,43 +11,62 @@ export default class Simple implements Compilation {
 
   }
 
-  //TODO when using compiler, flags needed at least are compilationLevel, jsOutputFile, JS as array of strings.
-  //TODO change any array to string array
-  compile(files: any[], outputDestination: string) {
+  compile(files: File[], outputDestination: string) {
 
-    this.initialiseGoogleCompiler(files, outputDestination);
+    this.initialiseGoogleCompiler(outputDestination);
 
-    console.log('closureCompiler>', this.googleClosureCompiler);
+	files.forEach((file: File) => {
 
-    //TODO check this is correct. Probably have to run through all contents in the array reading the path and outputting
-	//TODO the data.
+	  const contents = FsService.readFileContents(file.src, {
+		encoding: 'utf8',
+		flag: 'r'
+	  });
 
-	const contents = FsService.readFileContents(files[0].src);
-	FsService.createDirectory('./test');
 
-	console.log('contents>', contents);
+	  if (!FsService.doesPathExist(outputDestination)) {
 
-	this.googleClosureCompiler.run([{
-	  src: contents
-	}], (exitCode: string, output: string, error: string) => {
-	    console.log('exitCode>', exitCode);
-	    console.log('output>', output);
-	    console.log('error>', error);
+		FsService.createDirectory(outputDestination);
+
+	  }
+
+	  this.googleClosureCompiler.run([{
+	  	src: contents
+	  }], this.handleOutput.bind(this, file, outputDestination));
+
 	});
-    // this.googleClosureCompiler.run([{
-    //   path: files[0].path,
-	//   src: files[0].src,
-	// }],(exitCode: string, output: string, error: string) => {
-	//   console.log('exitCode>', exitCode);
-    //   console.log('output>', output);
-    //   console.log('error>', error);
-	// });
 
   }
 
-  initialiseGoogleCompiler(files: string[], outputDestination: string) {
+  handleOutput(file: File, outputDestination: string, exitCode: string, output: any, error: string) {
 
-    this.googleClosureCompiler = new this.googleClosureCompiler({
+	if (error) {
+
+	  throw new Error(`Exiting with code ${exitCode} error: ${error}`);
+
+	}
+
+	if (FsService.doesPathExist(`${outputDestination}/${file.output}`)) {
+
+	  return FsService.writeFileContents(`${outputDestination}/${file.output}`, output[0].src, {
+		encoding: 'utf8',
+		flag: 'a',
+		mode: 0o666
+	  });
+
+	}
+
+	FsService.writeFileContents(`${outputDestination}/${file.output}`, output[0].src, {
+	  encoding: 'utf8',
+	  flag: 'w',
+	  mode: 0o666
+	});
+
+  };
+
+  initialiseGoogleCompiler(outputDestination: string) {
+
+	//TODO maybe I don't need to specify the js_output_file? Because writing contents to file.
+	this.googleClosureCompiler = new this.googleClosureCompiler({
 	  compilation_level: "SIMPLE",
 	  js_output_file: outputDestination,
 	});

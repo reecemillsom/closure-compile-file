@@ -7,6 +7,9 @@ var FsService = /** @class */ (function () {
     FsService.createDirectory = function (path, options) {
         fs.mkdirSync(path, options);
     };
+    FsService.doesPathExist = function (path) {
+        return fs.existsSync(path);
+    };
     FsService.readFileContents = function (filePath, options) {
         var contents;
         try {

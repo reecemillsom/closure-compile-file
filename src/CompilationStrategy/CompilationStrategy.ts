@@ -1,7 +1,8 @@
 const ClosureCompiler = require('google-closure-compiler').jsCompiler;
 import {Advanced} from "../CompilationLevels/Advanced/Advanced";
-import Simple from "../CompilationLevels/Simple/Simple";
+import {Simple} from "../CompilationLevels/Simple/Simple";
 import {Whitespace} from "../CompilationLevels/Whitespace/Whitespace";
+import {File} from "../CompilationLevels/Compilation";
 
 export default class CompilationStrategy {
 
@@ -18,7 +19,7 @@ export default class CompilationStrategy {
   }
 
 
-  compile(compilationLevel: string, files: string[], outputDestination: string) {
+  compile(compilationLevel: string, files: File[], outputDestination: string) {
 
 	return this.compilationLevels[compilationLevel].compile(files, outputDestination);
 

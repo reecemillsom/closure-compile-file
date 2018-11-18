@@ -1,3 +1,9 @@
-export default interface Compilation {
-  compile: (files: string[], outputDestination: string) => any;
+
+export interface File {
+  src: string;
+  output: string;
+}
+
+export interface Compilation {
+  compile: (files: File[], outputDestination: string) => any;
 }

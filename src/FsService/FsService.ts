@@ -5,7 +5,7 @@ export interface FileSyncOptions {
   flag: string;
 }
 
-
+//TODO make mode optional and maybe flag.
 export interface WriteFileSyncOptions extends  FileSyncOptions{
 	mode: number;
 }
@@ -17,6 +17,12 @@ export class FsService {
 	static createDirectory(path: string, options?: any) {
 
 	  fs.mkdirSync(path, options);
+
+	}
+
+	static doesPathExist(path: string) {
+
+	  return fs.existsSync(path);
 
 	}
 
