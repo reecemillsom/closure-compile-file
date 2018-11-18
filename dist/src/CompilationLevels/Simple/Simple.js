@@ -2,7 +2,6 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var FsService_1 = require("../../FsService/FsService");
 var Simple = /** @class */ (function () {
-    //TODO maybe move instantiation of google closure compiler here. Means i can mock functions on the object.
     function Simple(googleClosureCompiler) {
         this.googleClosureCompiler = googleClosureCompiler;
         this.closureCompiler = googleClosureCompiler;

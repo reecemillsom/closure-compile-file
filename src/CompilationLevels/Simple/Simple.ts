@@ -5,7 +5,6 @@ export class Simple implements Compilation {
 
   public closureCompiler: any;
 
-  //TODO maybe move instantiation of google closure compiler here. Means i can mock functions on the object.
   constructor(private googleClosureCompiler: any) {
 
     this.closureCompiler = googleClosureCompiler;
