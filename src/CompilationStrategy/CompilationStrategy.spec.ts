@@ -1,7 +1,8 @@
-import CompilationStrategy from "./CompilationStrategy";
 import AdvancedMock from "../CompilationLevels/Advanced/AdvancedMock";
 import SimpleMock from "../CompilationLevels/Simple/SimpleMock";
 import WhitespaceMock from "../CompilationLevels/Whitespace/WhitespaceMock";
+import GoogleClosureCompilerMock from "../GoogleClosureCompiler/GoogleClosureCompileMock";
+import CompilationStrategy from "./CompilationStrategy";
 
 describe("CompilationStrategy", () => {
 
@@ -12,9 +13,9 @@ describe("CompilationStrategy", () => {
 		compilationStrategy = new CompilationStrategy();
 
 		compilationStrategy.compilationLevels = {
-			whitespace: new WhitespaceMock(),
-		  	simple: new SimpleMock(),
-		  	advanced: new AdvancedMock()
+			whitespace: new WhitespaceMock(GoogleClosureCompilerMock as any),
+		  	simple: new SimpleMock(GoogleClosureCompilerMock as any),
+		  	advanced: new AdvancedMock(GoogleClosureCompilerMock as any)
 		};
 
 		compilationStrategy.compilationLevels.whitespace.compile = jest.fn();
@@ -27,10 +28,10 @@ describe("CompilationStrategy", () => {
 
         it("will call compile on the advanced class", () => {
 
-          	compilationStrategy.compile('advanced', ['file.jpg'], './test');
+          	compilationStrategy.compile('advanced', [{src: 'some src files', output: 'some output file'}], './test');
 
             expect(compilationStrategy.compilationLevels.advanced.compile).toBeCalledTimes(1);
-            expect(compilationStrategy.compilationLevels.advanced.compile).toHaveBeenCalledWith(['file.jpg'], './test');
+            expect(compilationStrategy.compilationLevels.advanced.compile).toHaveBeenCalledWith([{src: 'some src files', output: 'some output file'}], './test');
 
         });
 
@@ -40,10 +41,10 @@ describe("CompilationStrategy", () => {
 
 		it("will call compile on the simple class", () => {
 
-		  compilationStrategy.compile('simple', ['file.jpg'], './test');
+		  compilationStrategy.compile('simple', [{src: 'some src files', output: 'some output file'}], './test');
 
 		  expect(compilationStrategy.compilationLevels.simple.compile).toBeCalledTimes(1);
-		  expect(compilationStrategy.compilationLevels.simple.compile).toHaveBeenCalledWith(['file.jpg'], './test');
+		  expect(compilationStrategy.compilationLevels.simple.compile).toHaveBeenCalledWith([{src: 'some src files', output: 'some output file'}], './test');
 
 		});
 
@@ -53,10 +54,10 @@ describe("CompilationStrategy", () => {
 
 		it("will call compile on the whitespace class", () => {
 
-		  compilationStrategy.compile('whitespace', ['file.jpg'], './test');
+		  compilationStrategy.compile('whitespace', [{src: 'some src files', output: 'some output file'}], './test');
 
 		  expect(compilationStrategy.compilationLevels.whitespace.compile).toBeCalledTimes(1);
-		  expect(compilationStrategy.compilationLevels.whitespace.compile).toHaveBeenCalledWith(['file.jpg'], './test');
+		  expect(compilationStrategy.compilationLevels.whitespace.compile).toHaveBeenCalledWith([{src: 'some src files', output: 'some output file'}], './test');
 
 		});
 
