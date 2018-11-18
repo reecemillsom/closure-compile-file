@@ -12,7 +12,9 @@ export default class CompilationStrategy {
 
     this.compilationLevels = {
       whitespace: new Whitespace(),
-	  simple: new Simple(ClosureCompiler),
+	  simple: new Simple(new ClosureCompiler({
+		compilation_level: "SIMPLE",
+	  })),
 	  advanced: new Advanced()
 	};
 

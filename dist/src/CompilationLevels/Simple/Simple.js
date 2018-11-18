@@ -2,13 +2,13 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var FsService_1 = require("../../FsService/FsService");
 var Simple = /** @class */ (function () {
-    function Simple(GoogleClosureCompiler) {
-        this.GoogleClosureCompiler = GoogleClosureCompiler;
-        this.googleClosureCompiler = GoogleClosureCompiler;
+    //TODO maybe move instantiation of google closure compiler here. Means i can mock functions on the object.
+    function Simple(googleClosureCompiler) {
+        this.googleClosureCompiler = googleClosureCompiler;
+        this.closureCompiler = googleClosureCompiler;
     }
     Simple.prototype.compile = function (files, outputDestination) {
         var _this = this;
-        this.initialiseGoogleCompiler();
         files.forEach(function (file) {
             var contents = FsService_1.FsService.readFileContents(file.src, {
                 encoding: 'utf8',
@@ -17,7 +17,7 @@ var Simple = /** @class */ (function () {
             if (!FsService_1.FsService.doesPathExist(outputDestination)) {
                 FsService_1.FsService.createDirectory(outputDestination);
             }
-            _this.googleClosureCompiler.run([{
+            _this.closureCompiler.run([{
                     src: contents
                 }], _this.handleOutput.bind(_this, file, outputDestination));
         });
@@ -38,11 +38,6 @@ var Simple = /** @class */ (function () {
         });
     };
     ;
-    Simple.prototype.initialiseGoogleCompiler = function () {
-        this.googleClosureCompiler = new this.googleClosureCompiler({
-            compilation_level: "SIMPLE",
-        });
-    };
     return Simple;
 }());
 exports.Simple = Simple;

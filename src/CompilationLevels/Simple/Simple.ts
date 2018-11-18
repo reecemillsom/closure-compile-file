@@ -14,8 +14,6 @@ export class Simple implements Compilation {
 
   compile(files: File[], outputDestination: string) {
 
-    // this.initialiseGoogleCompiler();
-
 	files.forEach((file: File) => {
 
 	  const contents = FsService.readFileContents(file.src, {
@@ -61,13 +59,5 @@ export class Simple implements Compilation {
 	});
 
   };
-
-  initialiseGoogleCompiler() {
-
-	this.googleClosureCompiler = new this.googleClosureCompiler({
-	  compilation_level: "SIMPLE",
-	});
-
-  }
 
 }
