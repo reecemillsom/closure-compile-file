@@ -13,7 +13,7 @@ export class Simple implements Compilation {
 
   compile(files: File[], outputDestination: string) {
 
-    this.initialiseGoogleCompiler(outputDestination);
+    this.initialiseGoogleCompiler();
 
 	files.forEach((file: File) => {
 
@@ -50,7 +50,6 @@ export class Simple implements Compilation {
 	  return FsService.writeFileContents(`${outputDestination}/${file.output}`, output[0].src, {
 		encoding: 'utf8',
 		flag: 'a',
-		mode: 0o666
 	  });
 
 	}
@@ -58,17 +57,14 @@ export class Simple implements Compilation {
 	FsService.writeFileContents(`${outputDestination}/${file.output}`, output[0].src, {
 	  encoding: 'utf8',
 	  flag: 'w',
-	  mode: 0o666
 	});
 
   };
 
-  initialiseGoogleCompiler(outputDestination: string) {
+  initialiseGoogleCompiler() {
 
-	//TODO maybe I don't need to specify the js_output_file? Because writing contents to file.
 	this.googleClosureCompiler = new this.googleClosureCompiler({
 	  compilation_level: "SIMPLE",
-	  js_output_file: outputDestination,
 	});
 
   }

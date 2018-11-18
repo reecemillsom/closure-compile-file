@@ -1,13 +1,12 @@
 const fs = require('fs');
 
 export interface FileSyncOptions {
-  encoding: string | null;
-  flag: string;
+  encoding?: string;
+  flag?: string;
 }
 
-//TODO make mode optional and maybe flag.
-export interface WriteFileSyncOptions extends  FileSyncOptions{
-	mode: number;
+export interface WriteFileSyncOptions extends  FileSyncOptions {
+	mode?: number;
 }
 
 export class FsService {

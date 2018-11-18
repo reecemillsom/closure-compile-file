@@ -8,7 +8,7 @@ var Simple = /** @class */ (function () {
     }
     Simple.prototype.compile = function (files, outputDestination) {
         var _this = this;
-        this.initialiseGoogleCompiler(outputDestination);
+        this.initialiseGoogleCompiler();
         files.forEach(function (file) {
             var contents = FsService_1.FsService.readFileContents(file.src, {
                 encoding: 'utf8',
@@ -22,13 +22,6 @@ var Simple = /** @class */ (function () {
                 }], _this.handleOutput.bind(_this, file, outputDestination));
         });
     };
-    Simple.prototype.initialiseGoogleCompiler = function (outputDestination) {
-        //TODO maybe I don't need to specify the js_output_file? Because writing contents to file.
-        this.googleClosureCompiler = new this.googleClosureCompiler({
-            compilation_level: "SIMPLE",
-            js_output_file: outputDestination,
-        });
-    };
     Simple.prototype.handleOutput = function (file, outputDestination, exitCode, output, error) {
         if (error) {
             throw new Error("Exiting with code " + exitCode + " error: " + error);
@@ -37,16 +30,19 @@ var Simple = /** @class */ (function () {
             return FsService_1.FsService.writeFileContents(outputDestination + "/" + file.output, output[0].src, {
                 encoding: 'utf8',
                 flag: 'a',
-                mode: 438
             });
         }
         FsService_1.FsService.writeFileContents(outputDestination + "/" + file.output, output[0].src, {
             encoding: 'utf8',
             flag: 'w',
-            mode: 438
         });
     };
     ;
+    Simple.prototype.initialiseGoogleCompiler = function () {
+        this.googleClosureCompiler = new this.googleClosureCompiler({
+            compilation_level: "SIMPLE",
+        });
+    };
     return Simple;
 }());
 exports.Simple = Simple;
