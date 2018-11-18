@@ -33,6 +33,7 @@ describe("Simple", () => {
 
 			  FsService.readFileContents = jest.fn().mockReturnValue('some content');
 			  FsService.doesPathExist = jest.fn().mockReturnValue(false);
+			  FsService.writeFileContents = jest.fn();
 
 			  FsService.createDirectory = jest.fn();
 
@@ -113,6 +114,7 @@ describe("Simple", () => {
         it("will call run on google closure compiler", () => {
 
 			FsService.readFileContents = jest.fn().mockReturnValue('some content');
+			FsService.writeFileContents = jest.fn();
 			closureCompiler.run = jest.fn();
 
             simple.compile([{src: 'some src files', output: 'some output file'}], './output');

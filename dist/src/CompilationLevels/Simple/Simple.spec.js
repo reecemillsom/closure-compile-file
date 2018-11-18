@@ -20,6 +20,7 @@ describe("Simple", function () {
             it("will create the directory", function () {
                 FsService_1.FsService.readFileContents = jest.fn().mockReturnValue('some content');
                 FsService_1.FsService.doesPathExist = jest.fn().mockReturnValue(false);
+                FsService_1.FsService.writeFileContents = jest.fn();
                 FsService_1.FsService.createDirectory = jest.fn();
                 simple.compile([{ src: 'some src files', output: 'some output file' }], './output');
                 expect(FsService_1.FsService.createDirectory).toHaveBeenCalledWith('./output');
@@ -66,6 +67,7 @@ describe("Simple", function () {
         });
         it("will call run on google closure compiler", function () {
             FsService_1.FsService.readFileContents = jest.fn().mockReturnValue('some content');
+            FsService_1.FsService.writeFileContents = jest.fn();
             closureCompiler.run = jest.fn();
             simple.compile([{ src: 'some src files', output: 'some output file' }], './output');
             expect(simple.closureCompiler.run).toHaveBeenCalledWith([{ src: 'some content' }], expect.any(Function));
