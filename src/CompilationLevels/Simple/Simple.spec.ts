@@ -1,6 +1,6 @@
+import {FsService} from "../../FsService/FsService";
 import GoogleClosureCompileMock from "../../GoogleClosureCompiler/GoogleClosureCompileMock";
 import {Simple} from "./Simple";
-import {FsService} from "../../FsService/FsService";
 
 describe("Simple", () => {
 

@@ -1,5 +1,5 @@
 const {compile} = require("../../../dist/index.js");
 
-compile('simple', [{
+compile('advanced', [{
 	src: './scripts/CompilationLevels/Simple/testSimpleCompilation.js', output: "foo.js"
 }], './test');
