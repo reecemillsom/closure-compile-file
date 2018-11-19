@@ -13,10 +13,10 @@ export default class CompilationStrategy {
     this.compilationLevels = {
       whitespace: new Whitespace(),
 	  simple: new Simple(new ClosureCompiler({
-		compilation_level: "SIMPLE",
+		compilation_level: "SIMPLE_OPTIMIZATIONS",
 	  })),
 	  advanced: new Advanced(new ClosureCompiler({
-		compilation_level: "ADVANCED"
+		compilation_level: "ADVANCED_OPTIMIZATIONS",
 	  }))
 	};
 

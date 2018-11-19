@@ -1,10 +1,42 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var FsService_1 = require("../../FsService/FsService");
 var Advanced = /** @class */ (function () {
-    function Advanced() {
+    function Advanced(googleClosureCompiler) {
+        this.googleClosureCompiler = googleClosureCompiler;
+        this.closureCompiler = this.googleClosureCompiler;
     }
-    //TODO when using compiler, flags needed at least are compilationLevel, jsOutputFile, JS as array of strings.
-    Advanced.prototype.compile = function (files, outputDestination) { };
+    Advanced.prototype.compile = function (files, outputDestination) {
+        var _this = this;
+        files.forEach(function (file) {
+            var contents = FsService_1.FsService.readFileContents(file.src, {
+                encoding: 'utf8',
+                flag: 'r'
+            });
+            if (!FsService_1.FsService.doesPathExist(outputDestination)) {
+                FsService_1.FsService.createDirectory(outputDestination);
+            }
+            _this.closureCompiler.run([{
+                    src: contents,
+                }], _this.handleOutput.bind(_this, file, outputDestination));
+        });
+    };
+    Advanced.prototype.handleOutput = function (file, outputDestination, exitCode, output, error) {
+        if (error) {
+            throw new Error("Exiting with code " + exitCode + " error: " + error);
+        }
+        if (FsService_1.FsService.doesPathExist(outputDestination + "/" + file.output)) {
+            return FsService_1.FsService.writeFileContents(outputDestination + "/" + file.output, output[0].src, {
+                encoding: 'utf8',
+                flag: 'a',
+            });
+        }
+        FsService_1.FsService.writeFileContents(outputDestination + "/" + file.output, output[0].src, {
+            encoding: 'utf8',
+            flag: 'w',
+        });
+    };
+    ;
     return Advanced;
 }());
 exports.Advanced = Advanced;

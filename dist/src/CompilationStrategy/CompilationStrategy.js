@@ -9,9 +9,11 @@ var CompilationStrategy = /** @class */ (function () {
         this.compilationLevels = {
             whitespace: new Whitespace_1.Whitespace(),
             simple: new Simple_1.Simple(new ClosureCompiler({
-                compilation_level: "SIMPLE",
+                compilation_level: "SIMPLE_OPTIMIZATIONS",
             })),
-            advanced: new Advanced_1.Advanced()
+            advanced: new Advanced_1.Advanced(new ClosureCompiler({
+                compilation_level: "ADVANCED_OPTIMIZATIONS",
+            }))
         };
     }
     CompilationStrategy.prototype.compile = function (compilationLevel, files, outputDestination) {
