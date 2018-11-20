@@ -31,7 +31,8 @@ describe("CompilationStrategy", () => {
           	compilationStrategy.compile('advanced', [{src: 'some src files', output: 'some output file'}], './test');
 
             expect(compilationStrategy.compilationLevels.advanced.compile).toBeCalledTimes(1);
-            expect(compilationStrategy.compilationLevels.advanced.compile).toHaveBeenCalledWith([{src: 'some src files', output: 'some output file'}], './test');
+            expect(compilationStrategy.compilationLevels.advanced.compile)
+				.toHaveBeenCalledWith([{src: 'some src files', output: 'some output file'}], './test');
 
         });
 
@@ -44,7 +45,8 @@ describe("CompilationStrategy", () => {
 		  compilationStrategy.compile('simple', [{src: 'some src files', output: 'some output file'}], './test');
 
 		  expect(compilationStrategy.compilationLevels.simple.compile).toBeCalledTimes(1);
-		  expect(compilationStrategy.compilationLevels.simple.compile).toHaveBeenCalledWith([{src: 'some src files', output: 'some output file'}], './test');
+		  expect(compilationStrategy.compilationLevels.simple.compile)
+			  .toHaveBeenCalledWith([{src: 'some src files', output: 'some output file'}], './test');
 
 		});
 
@@ -57,7 +59,8 @@ describe("CompilationStrategy", () => {
 		  compilationStrategy.compile('whitespace', [{src: 'some src files', output: 'some output file'}], './test');
 
 		  expect(compilationStrategy.compilationLevels.whitespace.compile).toBeCalledTimes(1);
-		  expect(compilationStrategy.compilationLevels.whitespace.compile).toHaveBeenCalledWith([{src: 'some src files', output: 'some output file'}], './test');
+		  expect(compilationStrategy.compilationLevels.whitespace.compile)
+			  .toHaveBeenCalledWith([{src: 'some src files', output: 'some output file'}], './test');
 
 		});
 

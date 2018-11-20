@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+var FsService_1 = require("../../FsService/FsService");
 var GoogleClosureCompileMock_1 = require("../../GoogleClosureCompiler/GoogleClosureCompileMock");
 var Simple_1 = require("./Simple");
-var FsService_1 = require("../../FsService/FsService");
 describe("Simple", function () {
     var closureCompiler;
     var simple;

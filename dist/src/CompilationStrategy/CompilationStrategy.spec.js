@@ -22,21 +22,24 @@ describe("CompilationStrategy", function () {
         it("will call compile on the advanced class", function () {
             compilationStrategy.compile('advanced', [{ src: 'some src files', output: 'some output file' }], './test');
             expect(compilationStrategy.compilationLevels.advanced.compile).toBeCalledTimes(1);
-            expect(compilationStrategy.compilationLevels.advanced.compile).toHaveBeenCalledWith([{ src: 'some src files', output: 'some output file' }], './test');
+            expect(compilationStrategy.compilationLevels.advanced.compile)
+                .toHaveBeenCalledWith([{ src: 'some src files', output: 'some output file' }], './test');
         });
     });
     describe("when asked to compile simple", function () {
         it("will call compile on the simple class", function () {
             compilationStrategy.compile('simple', [{ src: 'some src files', output: 'some output file' }], './test');
             expect(compilationStrategy.compilationLevels.simple.compile).toBeCalledTimes(1);
-            expect(compilationStrategy.compilationLevels.simple.compile).toHaveBeenCalledWith([{ src: 'some src files', output: 'some output file' }], './test');
+            expect(compilationStrategy.compilationLevels.simple.compile)
+                .toHaveBeenCalledWith([{ src: 'some src files', output: 'some output file' }], './test');
         });
     });
     describe("when asked to compile whitespace", function () {
         it("will call compile on the whitespace class", function () {
             compilationStrategy.compile('whitespace', [{ src: 'some src files', output: 'some output file' }], './test');
             expect(compilationStrategy.compilationLevels.whitespace.compile).toBeCalledTimes(1);
-            expect(compilationStrategy.compilationLevels.whitespace.compile).toHaveBeenCalledWith([{ src: 'some src files', output: 'some output file' }], './test');
+            expect(compilationStrategy.compilationLevels.whitespace.compile)
+                .toHaveBeenCalledWith([{ src: 'some src files', output: 'some output file' }], './test');
         });
     });
 });
