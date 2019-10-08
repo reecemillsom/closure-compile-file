@@ -32,6 +32,7 @@
     "typescript": "^3.1.6"
   },
   "dependencies": {
+    "@types/node": "^12.7.2",
     "google-closure-compiler": "^20181028.0.1"
   }
 }

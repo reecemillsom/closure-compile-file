@@ -5,20 +5,25 @@ export class Simple implements Compilation {
 
   public closureCompiler: any;
 
+  //TODO inject FsStreamService
   constructor(private googleClosureCompiler: any) {
 
     this.closureCompiler = googleClosureCompiler;
 
   }
 
+  //TODO read each file into a stream.
   compile(files: File[], outputDestination: string) {
 
 	files.forEach((file: File) => {
+	  console.log('file>', file);
 
 	  const contents = FsService.readFileContents(file.src, {
 		encoding: 'utf8',
 		flag: 'r'
 	  });
+
+	  console.log('contents>', contents);
 
 
 	  if (!FsService.doesPathExist(outputDestination)) {
@@ -36,6 +41,10 @@ export class Simple implements Compilation {
   }
 
   handleOutput(file: File, outputDestination: string, exitCode: string, output: any, error: string) {
+
+    console.log('exitCode>', exitCode);
+    console.log('output>', output);
+    console.log('error>', error);
 
 	if (error) {
 

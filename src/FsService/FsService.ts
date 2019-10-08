@@ -5,7 +5,7 @@ export interface FileSyncOptions {
   flag?: string;
 }
 
-export interface WriteFileSyncOptions extends  FileSyncOptions {
+export interface WriteFileSyncOptions extends FileSyncOptions {
 	mode?: number;
 }
 
@@ -32,6 +32,8 @@ export class FsService {
 	  try {
 
 	    contents = fs.readFileSync(filePath, options);
+
+	    console.log('contents>', contents);
 
 	  } catch(error) {
 

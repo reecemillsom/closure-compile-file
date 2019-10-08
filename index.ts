@@ -1,5 +1,5 @@
-import CompilationStrategy from "./src/CompilationStrategy/CompilationStrategy";
 import {File} from "./src/CompilationLevels/Compilation";
+import CompilationStrategy from "./src/CompilationStrategy/CompilationStrategy";
 
 
 export function compile(compilationLevel: string, files: File[], outputDestination: string) {
