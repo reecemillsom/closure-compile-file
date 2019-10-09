@@ -1,5 +1,6 @@
 import {FsService} from "../../FsService/FsService";
 import {Compilation, File} from "../Compilation";
+import {FsStreamService} from "../../FsService/FsStreamService";
 
 export class Simple implements Compilation {
 
@@ -15,36 +16,35 @@ export class Simple implements Compilation {
   //TODO read each file into a stream.
   compile(files: File[], outputDestination: string) {
 
+    if (!FsService.doesPathExist(outputDestination)) {
+
+	  FsService.createDirectory(outputDestination);
+
+    }
+
 	files.forEach((file: File) => {
-	  console.log('file>', file);
+	  //TODO this isn't being tested properly, refactor so it can be injected into function or constructor.
+	  const fsStreamService = new FsStreamService(file.src, `${outputDestination}/${file.output}`);
 
-	  const contents = FsService.readFileContents(file.src, {
-		encoding: 'utf8',
-		flag: 'r'
+	  fsStreamService.readFileContents((error, data) => {
+
+		if (error) {
+
+			throw new Error(error);
+
+		}
+
+		this.closureCompiler.run([{
+			src: data.join(''),
+		}], this.handleOutput.bind(this, file, outputDestination, fsStreamService));
+
 	  });
-
-	  console.log('contents>', contents);
-
-
-	  if (!FsService.doesPathExist(outputDestination)) {
-
-	  	FsService.createDirectory(outputDestination);
-
-	  }
-
-	  this.closureCompiler.run([{
-	  	src: contents
-	  }], this.handleOutput.bind(this, file, outputDestination));
 
 	});
 
   }
 
-  handleOutput(file: File, outputDestination: string, exitCode: string, output: any, error: string) {
-
-    console.log('exitCode>', exitCode);
-    console.log('output>', output);
-    console.log('error>', error);
+  handleOutput(file: File, outputDestination: string, streamService: FsStreamService, exitCode: string, output: any, error: string) {
 
 	if (error) {
 
@@ -52,19 +52,7 @@ export class Simple implements Compilation {
 
 	}
 
-	if (FsService.doesPathExist(`${outputDestination}/${file.output}`)) {
-
-	  return FsService.writeFileContents(`${outputDestination}/${file.output}`, output[0].src, {
-		encoding: 'utf8',
-		flag: 'a',
-	  });
-
-	}
-
-	FsService.writeFileContents(`${outputDestination}/${file.output}`, output[0].src, {
-	  encoding: 'utf8',
-	  flag: 'w',
-	});
+	streamService.writeFileContents(output[0].src);
 
   };
 
