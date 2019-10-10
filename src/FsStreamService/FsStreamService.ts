@@ -46,11 +46,17 @@ export class FsStreamService {
   	const readableStream = new Readable();
 
   	readableStream.push(compiledContents);
-  	readableStream.push(null); //TODO why is this needed (Saw this online)? Without these reading from the readable for some reason it errors. Need to figure this out.
+  	readableStream.push(null); //Indicates that the end of the content being read is here.
 
   	readableStream.on('data', (chunk) => {
 
   		this.writableStream.write(chunk.toString());
+
+	});
+
+  	readableStream.on('end', () => {
+
+  		console.log('Finished writing content to file...');
 
 	});
 
