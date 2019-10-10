@@ -3,6 +3,7 @@ import SimpleMock from "../CompilationLevels/Simple/SimpleMock";
 import WhitespaceMock from "../CompilationLevels/Whitespace/WhitespaceMock";
 import GoogleClosureCompilerMock from "../GoogleClosureCompiler/GoogleClosureCompileMock";
 import CompilationStrategy from "./CompilationStrategy";
+import {FsStreamService} from "../FsService/FsStreamService";
 
 describe("CompilationStrategy", () => {
 
@@ -32,7 +33,7 @@ describe("CompilationStrategy", () => {
 
             expect(compilationStrategy.compilationLevels.advanced.compile).toBeCalledTimes(1);
             expect(compilationStrategy.compilationLevels.advanced.compile)
-				.toHaveBeenCalledWith([{src: 'some src files', output: 'some output file'}], './test');
+				.toHaveBeenCalledWith([{src: 'some src files', output: 'some output file'}], './test', FsStreamService);
 
         });
 
@@ -46,7 +47,7 @@ describe("CompilationStrategy", () => {
 
 		  expect(compilationStrategy.compilationLevels.simple.compile).toBeCalledTimes(1);
 		  expect(compilationStrategy.compilationLevels.simple.compile)
-			  .toHaveBeenCalledWith([{src: 'some src files', output: 'some output file'}], './test');
+			  .toHaveBeenCalledWith([{src: 'some src files', output: 'some output file'}], './test', FsStreamService);
 
 		});
 
@@ -60,7 +61,7 @@ describe("CompilationStrategy", () => {
 
 		  expect(compilationStrategy.compilationLevels.whitespace.compile).toBeCalledTimes(1);
 		  expect(compilationStrategy.compilationLevels.whitespace.compile)
-			  .toHaveBeenCalledWith([{src: 'some src files', output: 'some output file'}], './test');
+			  .toHaveBeenCalledWith([{src: 'some src files', output: 'some output file'}], './test', FsStreamService);
 
 		});
 
