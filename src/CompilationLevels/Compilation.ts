@@ -1,3 +1,4 @@
+import {FsStreamService} from "../FsService/FsStreamService";
 
 export interface File {
   src: string;
@@ -5,5 +6,5 @@ export interface File {
 }
 
 export interface Compilation {
-  compile: (files: File[], outputDestination: string) => any;
+  compile: (files: File[], outputDestination: string, streamService: FsStreamService) => void;
 }

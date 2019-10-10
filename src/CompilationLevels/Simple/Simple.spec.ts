@@ -1,6 +1,7 @@
 import {FsService} from "../../FsService/FsService";
 import GoogleClosureCompileMock from "../../GoogleClosureCompiler/GoogleClosureCompileMock";
 import {Simple} from "./Simple";
+import {FsStreamServiceMock} from "../../FsService/FsStreamServiceMock";
 
 describe("Simple", () => {
 
@@ -31,13 +32,11 @@ describe("Simple", () => {
 
 			it("will create the directory", () => {
 
-			  FsService.readFileContents = jest.fn().mockReturnValue('some content');
 			  FsService.doesPathExist = jest.fn().mockReturnValue(false);
-			  FsService.writeFileContents = jest.fn();
 
 			  FsService.createDirectory = jest.fn();
 
-			  simple.compile([{src: 'some src files', output: 'some output file'}], './output');
+			  simple.compile([{src: 'some src files', output: 'some output file'}], './output', FsStreamServiceMock);
 
 			  expect(FsService.createDirectory).toHaveBeenCalledWith('./output');
 
@@ -45,19 +44,32 @@ describe("Simple", () => {
 
 		});
 
+		describe("when reading file contents errors", () => {
+
+		    it("will throw an error", () => {
+
+		    	expect(() => {
+
+					simple.compile([{src: '../test.js', output: 'some output file'}], './output', FsStreamServiceMock);
+
+				}).toThrow('Something went wrong');
+
+
+		    });
+
+		});
+
 		describe("when compiler run throws an error", () => {
 
 		    it("will throw an error to return to the user", () => {
 
-			  FsService.readFileContents = jest.fn().mockReturnValue('fail');
 			  FsService.createDirectory = jest.fn();
 
 			  expect(() => {
 
-				simple.compile([{ src: 'some src files', output: 'some output files' }], './output');
+				simple.compile([{ src: '../test1.js', output: 'test.js' }], './output', FsStreamServiceMock);
 
 			  }).toThrow('Exiting with code 1 error: something went wrong');
-
 
 			});
 
@@ -69,43 +81,13 @@ describe("Simple", () => {
 
 		        it("will call write file contents with the write data", () => {
 
-				  FsService.readFileContents = jest.fn().mockReturnValue('some content');
-				  FsService.doesPathExist = jest.fn()
-					  .mockImplementationOnce(() => false)
-					  .mockImplementationOnce(() => true);
+				  expect(() => {
 
-				  FsService.writeFileContents = jest.fn();
+				    simple.compile([{ src: 'some src files', output: 'some output files' }], './output', FsStreamServiceMock);
 
-				  simple.compile([{ src: 'some src files', output: 'some output files' }], './output');
-
-				  expect(FsService.writeFileContents).toHaveBeenCalledWith('./output/some output files', 'we have some content', {
-				    encoding: 'utf8',
-					flag: 'a'
-				  });
+				  }).not.toThrow('Exiting with code 1 error: something went wrong');
 
 		        });
-
-		    });
-
-		    describe("when output file does not exist", () => {
-
-		        it("will call write file contents with the write data", () => {
-
-				  FsService.readFileContents = jest.fn().mockReturnValue('some content');
-				  FsService.doesPathExist = jest.fn()
-					  .mockImplementationOnce(() => false)
-					  .mockImplementationOnce(() => false);
-
-				  FsService.writeFileContents = jest.fn();
-
-				  simple.compile([{ src: 'some src files', output: 'some output files' }], './output');
-
-				  expect(FsService.writeFileContents).toHaveBeenCalledWith('./output/some output files', 'we have some content', {
-					encoding: 'utf8',
-					flag: 'w'
-				  });
-
-				});
 
 		    });
 
@@ -113,13 +95,11 @@ describe("Simple", () => {
 
         it("will call run on google closure compiler", () => {
 
-			FsService.readFileContents = jest.fn().mockReturnValue('some content');
-			FsService.writeFileContents = jest.fn();
 			closureCompiler.run = jest.fn();
 
-            simple.compile([{src: 'some src files', output: 'some output file'}], './output');
+            simple.compile([{src: 'some src files', output: 'some output file'}], './output', FsStreamServiceMock);
 
-            expect(simple.closureCompiler.run).toHaveBeenCalledWith([{ src: 'some content' }], expect.any(Function));
+            expect(simple.closureCompiler.run).toHaveBeenCalledWith([{ src: 'ab' }], expect.any(Function));
 
         });
 

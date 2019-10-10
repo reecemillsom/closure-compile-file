@@ -3,6 +3,7 @@ import {Advanced} from "../CompilationLevels/Advanced/Advanced";
 import {File} from "../CompilationLevels/Compilation";
 import {Simple} from "../CompilationLevels/Simple/Simple";
 import {Whitespace} from "../CompilationLevels/Whitespace/Whitespace";
+import {FsStreamService} from "../FsService/FsStreamService";
 
 export default class CompilationStrategy {
 
@@ -25,7 +26,7 @@ export default class CompilationStrategy {
 
   compile(compilationLevel: string, files: File[], outputDestination: string) {
 
-	return this.compilationLevels[compilationLevel].compile(files, outputDestination);
+	return this.compilationLevels[compilationLevel].compile(files, outputDestination, FsStreamService);
 
   }
 

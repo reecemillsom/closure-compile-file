@@ -7,7 +7,7 @@ const fs = require('fs');
 export class FsStreamService {
 
   private readableStream: ReadableStream;
-  private writableStream: WritableStream; //TODO this is spelt wrong, it should have a e in it.
+  private writableStream: WritableStream;
   readonly data: string[];
 
   constructor(private inputDestination: string, private outputDestination: string) {
@@ -25,8 +25,6 @@ export class FsStreamService {
 	this.data = [];
   }
 
-  //TODO this isn't going to work this way because the compiler function doesn't know to wait for when the the contents have stopped being read.
-  //TODO maybe this function takes a callback, and once the 'end' event is fired calls back with data.
   readFileContents(callback: (error: string | null, data: string[]) => void) {
 
 	this.readableStream.on('data', (chunk) => {

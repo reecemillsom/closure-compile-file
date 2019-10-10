@@ -6,15 +6,13 @@ export class Simple implements Compilation {
 
   public closureCompiler: any;
 
-  //TODO inject FsStreamService
   constructor(private googleClosureCompiler: any) {
 
     this.closureCompiler = googleClosureCompiler;
 
   }
 
-  //TODO read each file into a stream.
-  compile(files: File[], outputDestination: string) {
+  compile(files: File[], outputDestination: string, StreamService: any) { //TODO why is this not type FsStreamService.
 
     if (!FsService.doesPathExist(outputDestination)) {
 
@@ -23,10 +21,10 @@ export class Simple implements Compilation {
     }
 
 	files.forEach((file: File) => {
-	  //TODO this isn't being tested properly, refactor so it can be injected into function or constructor.
-	  const fsStreamService = new FsStreamService(file.src, `${outputDestination}/${file.output}`);
 
-	  fsStreamService.readFileContents((error, data) => {
+	  const streamService = new StreamService(file.src, `${outputDestination}/${file.output}`);
+
+	  streamService.readFileContents((error: any, data: any) => { //TODO why are these any's??
 
 		if (error) {
 
@@ -36,7 +34,7 @@ export class Simple implements Compilation {
 
 		this.closureCompiler.run([{
 			src: data.join(''),
-		}], this.handleOutput.bind(this, file, outputDestination, fsStreamService));
+		}], this.handleOutput.bind(this, file, outputDestination, streamService));
 
 	  });
 
