@@ -1,6 +1,6 @@
 import {FsService} from "../../FsService/FsService";
 import {Compilation, File} from "../Compilation";
-import {FsStreamService} from "../../FsService/FsStreamService";
+import {FsStreamService} from "../../FsStreamService/FsStreamService";
 
 export class Simple implements Compilation {
 

@@ -3,7 +3,7 @@ import SimpleMock from "../CompilationLevels/Simple/SimpleMock";
 import WhitespaceMock from "../CompilationLevels/Whitespace/WhitespaceMock";
 import GoogleClosureCompilerMock from "../GoogleClosureCompiler/GoogleClosureCompileMock";
 import CompilationStrategy from "./CompilationStrategy";
-import {FsStreamService} from "../FsService/FsStreamService";
+import {FsStreamService} from "../FsStreamService/FsStreamService";
 
 describe("CompilationStrategy", () => {
 

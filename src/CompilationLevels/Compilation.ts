@@ -1,4 +1,4 @@
-import {FsStreamService} from "../FsService/FsStreamService";
+import {FsStreamService} from "../FsStreamService/FsStreamService";
 
 export interface File {
   src: string;
