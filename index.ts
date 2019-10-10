@@ -1,8 +1,13 @@
 import {File} from "./src/CompilationLevels/Compilation";
 import CompilationStrategy from "./src/CompilationStrategy/CompilationStrategy";
 
+enum CompilationLevel {
+	Simple = 'simple',
+	Whitespace = 'whitespace',
+	Advanced = 'advanced'
+}
 
-export function compile(compilationLevel: string, files: File[], outputDestination: string) {
+export function compile(compilationLevel: CompilationLevel, files: File[], outputDestination: string) {
 
 	const compilationStrategy = new CompilationStrategy();
 
