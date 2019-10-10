@@ -6,13 +6,13 @@ export class FsService {
 
 	static createDirectory(path: string, options?: any) {
 
-	  fs.mkdirSync(path, options);
+		fs.mkdirSync(path, options);
 
 	}
 
 	static doesPathExist(path: string) {
 
-	  return fs.existsSync(path);
+		return fs.existsSync(path);
 
 	}
 

@@ -2,8 +2,8 @@ import GoogleClosureCompileMock from "../../GoogleClosureCompiler/GoogleClosureC
 
 export default class SimpleMock {
 
-  constructor(private GoogleClosureCompilerMock: GoogleClosureCompileMock){}
+	constructor(private GoogleClosureCompilerMock: GoogleClosureCompileMock) {}
 
 
-  compile() {}
+	compile() {}
 }

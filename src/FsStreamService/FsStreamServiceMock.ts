@@ -1,4 +1,3 @@
-
 export class FsStreamServiceMock {
 
 	public readError: boolean = false;
@@ -37,6 +36,7 @@ export class FsStreamServiceMock {
 
 	}
 
-	writeFileContents() {}
+	writeFileContents() {
+	}
 
 }

@@ -5,54 +5,54 @@ import {FsStreamService} from "../../FsStreamService/FsStreamService";
 
 export class Advanced implements Compilation {
 
-  public closureCompiler: any;
+	public closureCompiler: any;
 
-  constructor(private googleClosureCompiler: any) {
+	constructor(private googleClosureCompiler: any) {
 
-    this.closureCompiler = this.googleClosureCompiler;
-
-  }
-
-  compile(files: File[], outputDestination: string, StreamService: any) { //TODO why is this not type FsStreamService.
-
-	if (!FsService.doesPathExist(outputDestination)) {
-
-	   FsService.createDirectory(outputDestination);
+		this.closureCompiler = this.googleClosureCompiler;
 
 	}
 
-    files.forEach((file: File) => {
+	compile(files: File[], outputDestination: string, StreamService: any) { //TODO why is this not type FsStreamService.
 
-	  const streamService = new StreamService(file.src, `${outputDestination}/${file.output}`);
+		if (!FsService.doesPathExist(outputDestination)) {
 
-	  streamService.readFileContents((error: any, data: any) => { //TODO why are these any's??
-
-		if (error) {
-
-			throw new Error(error);
+			FsService.createDirectory(outputDestination);
 
 		}
 
-		this.closureCompiler.run([{
-			src: data.join(''),
-		}], this.handleOutput.bind(this, file, outputDestination, streamService));
+		files.forEach((file: File) => {
 
-	  });
+			const streamService = new StreamService(file.src, `${outputDestination}/${file.output}`);
 
-	})
+			streamService.readFileContents((error: any, data: any) => { //TODO why are these any's??
 
-  }
+				if (error) {
 
-  handleOutput(file: File, outputDestination: string, streamService: FsStreamService, exitCode: string, output: any, error: string) {
+					throw new Error(error);
 
-	if (error) {
+				}
 
-	  throw new Error(`Exiting with code ${exitCode} error: ${error}`);
+				this.closureCompiler.run([{
+					src: data.join(''),
+				}], this.handleOutput.bind(this, file, outputDestination, streamService));
+
+			});
+
+		})
 
 	}
 
-    streamService.writeFileContents(output[0].src);
+	handleOutput(file: File, outputDestination: string, streamService: FsStreamService, exitCode: string, output: any, error: string) {
 
-  };
+		if (error) {
+
+			throw new Error(`Exiting with code ${exitCode} error: ${error}`);
+
+		}
+
+		streamService.writeFileContents(output[0].src);
+
+	};
 
 }
