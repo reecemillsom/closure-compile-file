@@ -1,16 +1,10 @@
-function add(number1, number2) {
+const {compile} = require("../../../dist/index.js");
 
-	return number1 + number2;
+compile('simple', [{
+	src: './scripts/CompilationLevels/Simple/Simple.js', output: "foo1.js"
+}, {
+	src: './scripts/CompilationLevels/Simple/Simple2.js', output: "foo2.js"
+}, {
+	src: './scripts/CompilationLevels/Simple/Simple3.js', output: "foo3.js"
+}], './simpleTest');
 
-}
-
-function subtract(num1, num2) {
-
-	return num1 - num2;
-
-}
-
-function divide(num1, num2) {
-
-	return num1 / num2;
-}
