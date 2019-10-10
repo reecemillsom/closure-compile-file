@@ -1,5 +1,6 @@
 import {FsService} from "../../FsService/FsService";
 import {Compilation, File} from "../Compilation";
+import {FsStreamService} from "../../FsStreamService/FsStreamService";
 
 
 export class Advanced implements Compilation {
@@ -12,30 +13,37 @@ export class Advanced implements Compilation {
 
   }
 
-  compile(files: File[], outputDestination: string) {
+  compile(files: File[], outputDestination: string, StreamService: any) { //TODO why is this not type FsStreamService.
+
+	if (!FsService.doesPathExist(outputDestination)) {
+
+	   FsService.createDirectory(outputDestination);
+
+	}
 
     files.forEach((file: File) => {
 
-	  const contents = FsService.readFileContents(file.src, {
-		encoding: 'utf8',
-		flag: 'r'
+	  const streamService = new StreamService(file.src, `${outputDestination}/${file.output}`);
+
+	  streamService.readFileContents((error: any, data: any) => { //TODO why are these any's??
+
+		if (error) {
+
+			throw new Error(error);
+
+		}
+
+		this.closureCompiler.run([{
+			src: data.join(''),
+		}], this.handleOutput.bind(this, file, outputDestination, streamService));
+
 	  });
-
-	  if (!FsService.doesPathExist(outputDestination)) {
-
-		FsService.createDirectory(outputDestination);
-
-	  }
-
-	  this.closureCompiler.run([{
-		src: contents,
-	  }], this.handleOutput.bind(this, file, outputDestination));
 
 	})
 
   }
 
-  handleOutput(file: File, outputDestination: string, exitCode: string, output: any, error: string) {
+  handleOutput(file: File, outputDestination: string, streamService: FsStreamService, exitCode: string, output: any, error: string) {
 
 	if (error) {
 
@@ -43,19 +51,7 @@ export class Advanced implements Compilation {
 
 	}
 
-	if (FsService.doesPathExist(`${outputDestination}/${file.output}`)) {
-
-	  return FsService.writeFileContents(`${outputDestination}/${file.output}`, output[0].src, {
-		encoding: 'utf8',
-		flag: 'a',
-	  });
-
-	}
-
-	FsService.writeFileContents(`${outputDestination}/${file.output}`, output[0].src, {
-	  encoding: 'utf8',
-	  flag: 'w',
-	});
+    streamService.writeFileContents(output[0].src);
 
   };
 

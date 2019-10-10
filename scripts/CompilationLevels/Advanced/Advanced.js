@@ -1,5 +1,11 @@
-const {compile} = require("../../../dist/index.js");
+function unusedFunction(note) {
+	alert(note['text']);
+}
 
-compile('advanced', [{
-	src: './scripts/CompilationLevels/Advanced/testAdvancedCompilation.js', output: "bar.js"
-}], './test');
+function displayNoteTitle(note) {
+	alert(note['title']);
+}
+
+var flowerNote = {};
+flowerNote['title'] = "Flowers";
+displayNoteTitle(flowerNote);

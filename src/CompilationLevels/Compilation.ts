@@ -6,5 +6,5 @@ export interface File {
 }
 
 export interface Compilation {
-  compile: (files: File[], outputDestination: string, streamService: FsStreamService) => void;
+  compile: (files: File[], outputDestination: string, StreamService: FsStreamService) => void;
 }

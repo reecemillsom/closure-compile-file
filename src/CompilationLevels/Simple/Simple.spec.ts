@@ -5,40 +5,40 @@ import {FsStreamServiceMock} from "../../FsStreamService/FsStreamServiceMock";
 
 describe("Simple", () => {
 
-  	let closureCompiler: any;
-  	let simple: Simple;
+	let closureCompiler: any;
+	let simple: Simple;
 
-  	beforeEach(() => {
+	beforeEach(() => {
 
-  	  	closureCompiler = new GoogleClosureCompileMock();
+		closureCompiler = new GoogleClosureCompileMock();
 
-  	    simple = new Simple(closureCompiler);
+		simple = new Simple(closureCompiler);
 
-  	});
+	});
 
-  	describe("when asked to initialise", () => {
+	describe("when asked to initialise", () => {
 
-  	    it("will assign google compiler", () => {
+		it("will assign google compiler", () => {
 
-  	        expect(simple.closureCompiler).toEqual(closureCompiler);
+			expect(simple.closureCompiler).toEqual(closureCompiler);
 
-  	    });
+		});
 
-  	});
+	});
 
-    describe("when asked to compile", () => {
+	describe("when asked to compile", () => {
 
 		describe("when directory path does not exist", () => {
 
 			it("will create the directory", () => {
 
-			  FsService.doesPathExist = jest.fn().mockReturnValue(false);
+				FsService.doesPathExist = jest.fn().mockReturnValue(false);
 
-			  FsService.createDirectory = jest.fn();
+				FsService.createDirectory = jest.fn();
 
-			  simple.compile([{src: 'some src files', output: 'some output file'}], './output', FsStreamServiceMock);
+				simple.compile([{src: 'some src files', output: 'some output file'}], './output', FsStreamServiceMock);
 
-			  expect(FsService.createDirectory).toHaveBeenCalledWith('./output');
+				expect(FsService.createDirectory).toHaveBeenCalledWith('./output');
 
 			});
 
@@ -46,30 +46,30 @@ describe("Simple", () => {
 
 		describe("when reading file contents errors", () => {
 
-		    it("will throw an error", () => {
+			it("will throw an error", () => {
 
-		    	expect(() => {
+				expect(() => {
 
 					simple.compile([{src: '../test.js', output: 'some output file'}], './output', FsStreamServiceMock);
 
 				}).toThrow('Something went wrong');
 
 
-		    });
+			});
 
 		});
 
 		describe("when compiler run throws an error", () => {
 
-		    it("will throw an error to return to the user", () => {
+			it("will throw an error to return to the user", () => {
 
-			  FsService.createDirectory = jest.fn();
+				FsService.createDirectory = jest.fn();
 
-			  expect(() => {
+				expect(() => {
 
-				simple.compile([{ src: '../test1.js', output: 'test.js' }], './output', FsStreamServiceMock);
+					simple.compile([{src: '../test1.js', output: 'test.js'}], './output', FsStreamServiceMock);
 
-			  }).toThrow('Exiting with code 1 error: something went wrong');
+				}).toThrow('Exiting with code 1 error: something went wrong');
 
 			});
 
@@ -77,32 +77,31 @@ describe("Simple", () => {
 
 		describe("when compiler does not throw an error", () => {
 
-		    describe("when output file already exists", () => {
+			it("will call write file contents with the right data", () => {
 
-		        it("will call write file contents with the write data", () => {
+				expect(() => {
 
-				  expect(() => {
+					simple.compile([{
+						src: 'some src files',
+						output: 'some output files'
+					}], './output', FsStreamServiceMock);
 
-				    simple.compile([{ src: 'some src files', output: 'some output files' }], './output', FsStreamServiceMock);
+				}).not.toThrow('Exiting with code 1 error: something went wrong');
 
-				  }).not.toThrow('Exiting with code 1 error: something went wrong');
-
-		        });
-
-		    });
+			});
 
 		});
 
-        it("will call run on google closure compiler", () => {
+		it("will call run on google closure compiler", () => {
 
 			closureCompiler.run = jest.fn();
 
-            simple.compile([{src: 'some src files', output: 'some output file'}], './output', FsStreamServiceMock);
+			simple.compile([{src: 'some src files', output: 'some output file'}], './output', FsStreamServiceMock);
 
-            expect(simple.closureCompiler.run).toHaveBeenCalledWith([{ src: 'ab' }], expect.any(Function));
+			expect(simple.closureCompiler.run).toHaveBeenCalledWith([{src: 'ab'}], expect.any(Function));
 
-        });
+		});
 
-    });
+	});
 
 });
