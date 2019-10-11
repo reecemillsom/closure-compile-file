@@ -1,7 +1,7 @@
-import {FsService} from "../FsService/FsService";
+import FsService from "../FsService/FsService";
+import FsStreamServiceMock from "../FsStreamService/FsStreamServiceMock";
 import GoogleClosureCompileMock from "../GoogleClosureCompiler/GoogleClosureCompileMock";
 import {Compilation} from "./Compilation";
-import {FsStreamServiceMock} from "../FsStreamService/FsStreamServiceMock";
 
 describe("Compilation", () => {
 

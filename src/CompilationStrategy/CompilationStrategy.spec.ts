@@ -1,5 +1,6 @@
+import {CompilationLevel} from "../../index";
+import FsStreamService from "../FsStreamService/FsStreamService";
 import CompilationStrategy from "./CompilationStrategy";
-import {FsStreamService} from "../FsStreamService/FsStreamService";
 
 describe("CompilationStrategy", () => {
 
@@ -20,7 +21,10 @@ describe("CompilationStrategy", () => {
 
 		it("will call compile on the advanced class", () => {
 
-			compilationStrategy.compile('advanced', [{src: 'some src files', output: 'some output file'}], './test');
+			compilationStrategy.compile(CompilationLevel.Advanced, [{
+				src: 'some src files',
+				output: 'some output file'
+			}], './test');
 
 			expect(compilationStrategy.compilationLevels.advanced).toBeCalledTimes(1);
 			expect(compilationStrategy.compilationLevels.advanced)
@@ -34,7 +38,10 @@ describe("CompilationStrategy", () => {
 
 		it("will call compile on the simple class", () => {
 
-			compilationStrategy.compile('simple', [{src: 'some src files', output: 'some output file'}], './test');
+			compilationStrategy.compile(CompilationLevel.Simple, [{
+				src: 'some src files',
+				output: 'some output file'
+			}], './test');
 
 			expect(compilationStrategy.compilationLevels.simple).toBeCalledTimes(1);
 			expect(compilationStrategy.compilationLevels.simple)

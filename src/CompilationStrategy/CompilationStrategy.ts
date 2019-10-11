@@ -1,6 +1,8 @@
+import {CompilationLevel} from "../../index";
+
 const ClosureCompiler = require('google-closure-compiler').jsCompiler;
 import {Compilation, File} from "../Compilation/Compilation";
-import {FsStreamService} from "../FsStreamService/FsStreamService";
+import FsStreamService from "../FsStreamService/FsStreamService";
 
 export default class CompilationStrategy {
 
@@ -10,18 +12,20 @@ export default class CompilationStrategy {
 
 		//TODO need to add whitespace.
 		this.compilationLevels = {
-			simple: (files: File[], outputDestination: string, streamService: FsStreamService) => this.simple(files, outputDestination, new ClosureCompiler({
-				compilation_level: "SIMPLE_OPTIMIZATIONS"
-			}), streamService),
-			advanced: (files: File[], outputDestination: string, streamService: FsStreamService) => this.advanced(files, outputDestination, new ClosureCompiler({
-				compilation_level: "ADVANCED_OPTIMIZATIONS"
-			}), streamService)
+			simple: (files: File[], outputDestination: string, streamService: FsStreamService) =>
+				this.simple(files, outputDestination, new ClosureCompiler({
+					compilation_level: "SIMPLE_OPTIMIZATIONS"
+				}), streamService),
+			advanced: (files: File[], outputDestination: string, streamService: FsStreamService) =>
+				this.advanced(files, outputDestination, new ClosureCompiler({
+					compilation_level: "ADVANCED_OPTIMIZATIONS"
+				}), streamService)
 		}
 
 	}
 
 
-	compile(compilationLevel: string, files: File[], outputDestination: string) {
+	compile(compilationLevel: CompilationLevel, files: File[], outputDestination: string) {
 
 		return this.compilationLevels[compilationLevel](files, outputDestination, FsStreamService);
 

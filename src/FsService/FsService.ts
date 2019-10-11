@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-export class FsService {
+export default class FsService {
 
 	constructor() {}
 

@@ -1,5 +1,5 @@
-import {FsStreamService} from "../FsStreamService/FsStreamService";
-import {FsService} from "../FsService/FsService";
+import FsService from "../FsService/FsService";
+import FsStreamService from "../FsStreamService/FsStreamService";
 
 export interface File {
 	src: string; //TODO should be called srcFile
@@ -28,7 +28,7 @@ export class Compilation {
 
 			const streamService = new StreamService(file.src, `${outputDestination}/${file.output}`);
 
-			streamService.readFileContents((error: any, data: any) => { //TODO why are these any's??
+			streamService.readFileContents((error: string | null, data: string[]) => { //TODO why are these any's??
 
 				if (error) {
 
@@ -38,7 +38,7 @@ export class Compilation {
 
 				this.closureCompiler.run([{
 					src: data.join(''),
-				}], this.handleOutput.bind(this, file, outputDestination, streamService));
+				}], this.handleOutput.bind(this, streamService));
 
 			});
 
@@ -46,7 +46,7 @@ export class Compilation {
 
 	}
 
-	handleOutput(file: File, outputDestination: string, streamService: FsStreamService, exitCode: string, output: any, error: string) {
+	handleOutput(streamService: FsStreamService, exitCode: string, output: any, error: string) {
 
 		if (error) {
 

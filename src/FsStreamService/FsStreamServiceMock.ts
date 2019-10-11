@@ -1,4 +1,4 @@
-export class FsStreamServiceMock {
+export default class FsStreamServiceMock {
 
 	public readError: boolean = false;
 	public compilationError: boolean = false;

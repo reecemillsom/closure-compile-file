@@ -1,7 +1,7 @@
 import {File} from "./src/Compilation/Compilation";
 import CompilationStrategy from "./src/CompilationStrategy/CompilationStrategy";
 
-enum CompilationLevel {
+export enum CompilationLevel {
 	Simple = 'simple',
 	Whitespace = 'whitespace',
 	Advanced = 'advanced'
