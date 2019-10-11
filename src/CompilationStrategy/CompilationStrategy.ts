@@ -1,32 +1,61 @@
+import {CompilationLevel} from "../../index";
+
 const ClosureCompiler = require('google-closure-compiler').jsCompiler;
-import {Advanced} from "../CompilationLevels/Advanced/Advanced";
-import {File} from "../CompilationLevels/Compilation";
-import {Simple} from "../CompilationLevels/Simple/Simple";
-import {Whitespace} from "../CompilationLevels/Whitespace/Whitespace";
+import {Compilation, File} from "../Compilation/Compilation";
+import FsStreamService from "../FsStreamService/FsStreamService";
 
 export default class CompilationStrategy {
 
-  public compilationLevels: any;
+	public compilationLevels: any;
 
-  constructor() {
+	constructor() {
 
-    this.compilationLevels = {
-      whitespace: new Whitespace(),
-	  simple: new Simple(new ClosureCompiler({
-		compilation_level: "SIMPLE_OPTIMIZATIONS",
-	  })),
-	  advanced: new Advanced(new ClosureCompiler({
-		compilation_level: "ADVANCED_OPTIMIZATIONS",
-	  }))
-	};
+		this.compilationLevels = {
+			simple: (files: File[], outputDestination: string, streamService: FsStreamService) =>
+				this.simple(files, outputDestination, new ClosureCompiler({
+					compilation_level: "SIMPLE_OPTIMIZATIONS"
+				}), streamService),
+			advanced: (files: File[], outputDestination: string, streamService: FsStreamService) =>
+				this.advanced(files, outputDestination, new ClosureCompiler({
+					compilation_level: "ADVANCED_OPTIMIZATIONS"
+				}), streamService),
+			whitespace: (files: File[], outputDestination: string, streamService: FsStreamService) =>
+				this.whitespace(files, outputDestination, new ClosureCompiler({
+					compilation_level: "WHITESPACE_ONLY"
+				}), streamService)
+		}
 
-  }
+	}
 
 
-  compile(compilationLevel: string, files: File[], outputDestination: string) {
+	compile(compilationLevel: CompilationLevel, files: File[], outputDestination: string) {
 
-	return this.compilationLevels[compilationLevel].compile(files, outputDestination);
+		return this.compilationLevels[compilationLevel](files, outputDestination, FsStreamService);
 
-  }
+	}
+
+	private simple(files: File[], outputDestination: string, closureCompiler: any, streamService: FsStreamService) {
+
+		const compilation = new Compilation(closureCompiler);
+
+		return compilation.compile(files, outputDestination, streamService);
+
+	}
+
+	private advanced(files: File[], outputDestination: string, closureCompiler: any, streamService: FsStreamService) {
+
+		const compilation = new Compilation(closureCompiler);
+
+		return compilation.compile(files, outputDestination, streamService);
+
+	}
+
+	private whitespace(files: File[], outputDestination: string, closureCompiler: any, streamService: FsStreamService) {
+
+		const compilation = new Compilation(closureCompiler);
+
+		return compilation.compile(files, outputDestination, streamService);
+
+	}
 
 }

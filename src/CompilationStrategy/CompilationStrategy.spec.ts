@@ -1,52 +1,52 @@
-import AdvancedMock from "../CompilationLevels/Advanced/AdvancedMock";
-import SimpleMock from "../CompilationLevels/Simple/SimpleMock";
-import WhitespaceMock from "../CompilationLevels/Whitespace/WhitespaceMock";
-import GoogleClosureCompilerMock from "../GoogleClosureCompiler/GoogleClosureCompileMock";
+import {CompilationLevel} from "../../index";
+import FsStreamService from "../FsStreamService/FsStreamService";
 import CompilationStrategy from "./CompilationStrategy";
 
 describe("CompilationStrategy", () => {
 
-  	let compilationStrategy: CompilationStrategy;
+	let compilationStrategy: CompilationStrategy;
 
-  	beforeAll(() => {
+	beforeAll(() => {
 
 		compilationStrategy = new CompilationStrategy();
 
 		compilationStrategy.compilationLevels = {
-			whitespace: new WhitespaceMock(GoogleClosureCompilerMock as any),
-		  	simple: new SimpleMock(GoogleClosureCompilerMock as any),
-		  	advanced: new AdvancedMock(GoogleClosureCompilerMock as any)
+			simple: jest.fn(),
+			advanced: jest.fn(),
+			whitespace: jest.fn()
 		};
 
-		compilationStrategy.compilationLevels.whitespace.compile = jest.fn();
-		compilationStrategy.compilationLevels.simple.compile = jest.fn();
-		compilationStrategy.compilationLevels.advanced.compile = jest.fn();
+	});
 
-  	});
+	describe("when asked to compile advanced", () => {
 
-    describe("when asked to compile advanced", () => {
+		it("will call compile on the advanced class", () => {
 
-        it("will call compile on the advanced class", () => {
+			compilationStrategy.compile(CompilationLevel.Advanced, [{
+				src: 'some src files',
+				output: 'some output file'
+			}], './test');
 
-          	compilationStrategy.compile('advanced', [{src: 'some src files', output: 'some output file'}], './test');
+			expect(compilationStrategy.compilationLevels.advanced).toBeCalledTimes(1);
+			expect(compilationStrategy.compilationLevels.advanced)
+				.toHaveBeenCalledWith([{src: 'some src files', output: 'some output file'}], './test', FsStreamService);
 
-            expect(compilationStrategy.compilationLevels.advanced.compile).toBeCalledTimes(1);
-            expect(compilationStrategy.compilationLevels.advanced.compile)
-				.toHaveBeenCalledWith([{src: 'some src files', output: 'some output file'}], './test');
+		});
 
-        });
-
-    });
+	});
 
 	describe("when asked to compile simple", () => {
 
 		it("will call compile on the simple class", () => {
 
-		  compilationStrategy.compile('simple', [{src: 'some src files', output: 'some output file'}], './test');
+			compilationStrategy.compile(CompilationLevel.Simple, [{
+				src: 'some src files',
+				output: 'some output file'
+			}], './test');
 
-		  expect(compilationStrategy.compilationLevels.simple.compile).toBeCalledTimes(1);
-		  expect(compilationStrategy.compilationLevels.simple.compile)
-			  .toHaveBeenCalledWith([{src: 'some src files', output: 'some output file'}], './test');
+			expect(compilationStrategy.compilationLevels.simple).toBeCalledTimes(1);
+			expect(compilationStrategy.compilationLevels.simple)
+				.toHaveBeenCalledWith([{src: 'some src files', output: 'some output file'}], './test', FsStreamService);
 
 		});
 
@@ -56,11 +56,13 @@ describe("CompilationStrategy", () => {
 
 		it("will call compile on the whitespace class", () => {
 
-		  compilationStrategy.compile('whitespace', [{src: 'some src files', output: 'some output file'}], './test');
+			compilationStrategy.compile(CompilationLevel.Whitespace, [{
+				src: 'some src files', output: 'some output file'
+			}], './test');
 
-		  expect(compilationStrategy.compilationLevels.whitespace.compile).toBeCalledTimes(1);
-		  expect(compilationStrategy.compilationLevels.whitespace.compile)
-			  .toHaveBeenCalledWith([{src: 'some src files', output: 'some output file'}], './test');
+			expect(compilationStrategy.compilationLevels.whitespace).toBeCalledTimes(1);
+			expect(compilationStrategy.compilationLevels.whitespace)
+				.toHaveBeenCalledWith([{src: 'some src files', output: 'some output file'}], './test', FsStreamService);
 
 		});
 

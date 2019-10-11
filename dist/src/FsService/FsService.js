@@ -10,19 +10,6 @@ var FsService = /** @class */ (function () {
     FsService.doesPathExist = function (path) {
         return fs.existsSync(path);
     };
-    FsService.readFileContents = function (filePath, options) {
-        var contents;
-        try {
-            contents = fs.readFileSync(filePath, options);
-        }
-        catch (error) {
-            return error;
-        }
-        return contents;
-    };
-    FsService.writeFileContents = function (filePath, data, options) {
-        fs.writeFileSync(filePath, data, options);
-    };
     return FsService;
 }());
-exports.FsService = FsService;
+exports.default = FsService;
