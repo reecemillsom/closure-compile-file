@@ -1,4 +1,4 @@
-import {File} from "./src/CompilationLevels/Compilation";
+import {File} from "./src/Compilation/Compilation";
 import CompilationStrategy from "./src/CompilationStrategy/CompilationStrategy";
 
 enum CompilationLevel {

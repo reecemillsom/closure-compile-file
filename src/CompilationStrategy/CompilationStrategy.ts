@@ -1,8 +1,5 @@
 const ClosureCompiler = require('google-closure-compiler').jsCompiler;
-import {Advanced} from "../CompilationLevels/Advanced/Advanced";
-import {File} from "../CompilationLevels/Compilation";
-import {Simple} from "../CompilationLevels/Simple/Simple";
-import {Whitespace} from "../CompilationLevels/Whitespace/Whitespace";
+import {Compilation, File} from "../Compilation/Compilation";
 import {FsStreamService} from "../FsStreamService/FsStreamService";
 
 export default class CompilationStrategy {
@@ -11,22 +8,38 @@ export default class CompilationStrategy {
 
 	constructor() {
 
+		//TODO need to add whitespace.
 		this.compilationLevels = {
-			whitespace: new Whitespace(),
-			simple: new Simple(new ClosureCompiler({
-				compilation_level: "SIMPLE_OPTIMIZATIONS",
-			})),
-			advanced: new Advanced(new ClosureCompiler({
-				compilation_level: "ADVANCED_OPTIMIZATIONS",
-			}))
-		};
+			simple: (files: File[], outputDestination: string, streamService: FsStreamService) => this.simple(files, outputDestination, new ClosureCompiler({
+				compilation_level: "SIMPLE_OPTIMIZATIONS"
+			}), streamService),
+			advanced: (files: File[], outputDestination: string, streamService: FsStreamService) => this.advanced(files, outputDestination, new ClosureCompiler({
+				compilation_level: "ADVANCED_OPTIMIZATIONS"
+			}), streamService)
+		}
 
 	}
 
 
 	compile(compilationLevel: string, files: File[], outputDestination: string) {
 
-		return this.compilationLevels[compilationLevel].compile(files, outputDestination, FsStreamService);
+		return this.compilationLevels[compilationLevel](files, outputDestination, FsStreamService);
+
+	}
+
+	private simple(files: File[], outputDestination: string, closureCompiler: any, streamService: FsStreamService) {
+
+		const compilation = new Compilation(closureCompiler);
+
+		return compilation.compile(files, outputDestination, streamService);
+
+	}
+
+	private advanced(files: File[], outputDestination: string, closureCompiler: any, streamService: FsStreamService) {
+
+		const compilation = new Compilation(closureCompiler);
+
+		return compilation.compile(files, outputDestination, streamService);
 
 	}
 

@@ -4,6 +4,7 @@ import {Readable} from "stream";
 
 const fs = require('fs');
 
+//TODO maybe export default.
 export class FsStreamService {
 
 	private readableStream: ReadableStream;
@@ -56,7 +57,7 @@ export class FsStreamService {
 
 		readableStream.on('end', () => {
 
-			console.log('Finished writing content to file...');
+			console.log(`Finished writing content to location ${this.outputDestination}`);
 
 		});
 

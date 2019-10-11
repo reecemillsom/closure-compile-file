@@ -1,15 +1,18 @@
-import {FsService} from "../../FsService/FsService";
-import {Compilation, File} from "../Compilation";
-import {FsStreamService} from "../../FsStreamService/FsStreamService";
+import {FsStreamService} from "../FsStreamService/FsStreamService";
+import {FsService} from "../FsService/FsService";
 
+export interface File {
+	src: string; //TODO should be called srcFile
+	output: string; //TODO should be called outputFile
+}
 
-export class Advanced implements Compilation {
+export class Compilation {
 
 	public closureCompiler: any;
 
 	constructor(private googleClosureCompiler: any) {
 
-		this.closureCompiler = this.googleClosureCompiler;
+		this.closureCompiler = googleClosureCompiler;
 
 	}
 
@@ -39,7 +42,7 @@ export class Advanced implements Compilation {
 
 			});
 
-		})
+		});
 
 	}
 
@@ -56,3 +59,4 @@ export class Advanced implements Compilation {
 	};
 
 }
+

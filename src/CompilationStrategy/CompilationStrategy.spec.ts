@@ -1,7 +1,3 @@
-import AdvancedMock from "../CompilationLevels/Advanced/AdvancedMock";
-import SimpleMock from "../CompilationLevels/Simple/SimpleMock";
-import WhitespaceMock from "../CompilationLevels/Whitespace/WhitespaceMock";
-import GoogleClosureCompilerMock from "../GoogleClosureCompiler/GoogleClosureCompileMock";
 import CompilationStrategy from "./CompilationStrategy";
 import {FsStreamService} from "../FsStreamService/FsStreamService";
 
@@ -14,14 +10,9 @@ describe("CompilationStrategy", () => {
 		compilationStrategy = new CompilationStrategy();
 
 		compilationStrategy.compilationLevels = {
-			whitespace: new WhitespaceMock(GoogleClosureCompilerMock as any),
-			simple: new SimpleMock(GoogleClosureCompilerMock as any),
-			advanced: new AdvancedMock(GoogleClosureCompilerMock as any)
+			simple: jest.fn(),
+			advanced: jest.fn()
 		};
-
-		compilationStrategy.compilationLevels.whitespace.compile = jest.fn();
-		compilationStrategy.compilationLevels.simple.compile = jest.fn();
-		compilationStrategy.compilationLevels.advanced.compile = jest.fn();
 
 	});
 
@@ -31,8 +22,8 @@ describe("CompilationStrategy", () => {
 
 			compilationStrategy.compile('advanced', [{src: 'some src files', output: 'some output file'}], './test');
 
-			expect(compilationStrategy.compilationLevels.advanced.compile).toBeCalledTimes(1);
-			expect(compilationStrategy.compilationLevels.advanced.compile)
+			expect(compilationStrategy.compilationLevels.advanced).toBeCalledTimes(1);
+			expect(compilationStrategy.compilationLevels.advanced)
 				.toHaveBeenCalledWith([{src: 'some src files', output: 'some output file'}], './test', FsStreamService);
 
 		});
@@ -45,26 +36,26 @@ describe("CompilationStrategy", () => {
 
 			compilationStrategy.compile('simple', [{src: 'some src files', output: 'some output file'}], './test');
 
-			expect(compilationStrategy.compilationLevels.simple.compile).toBeCalledTimes(1);
-			expect(compilationStrategy.compilationLevels.simple.compile)
+			expect(compilationStrategy.compilationLevels.simple).toBeCalledTimes(1);
+			expect(compilationStrategy.compilationLevels.simple)
 				.toHaveBeenCalledWith([{src: 'some src files', output: 'some output file'}], './test', FsStreamService);
 
 		});
 
 	});
 
-	describe("when asked to compile whitespace", () => {
-
-		it("will call compile on the whitespace class", () => {
-
-			compilationStrategy.compile('whitespace', [{src: 'some src files', output: 'some output file'}], './test');
-
-			expect(compilationStrategy.compilationLevels.whitespace.compile).toBeCalledTimes(1);
-			expect(compilationStrategy.compilationLevels.whitespace.compile)
-				.toHaveBeenCalledWith([{src: 'some src files', output: 'some output file'}], './test', FsStreamService);
-
-		});
-
-	});
+	// describe("when asked to compile whitespace", () => {
+	//
+	// 	it("will call compile on the whitespace class", () => {
+	//
+	// 		compilationStrategy.compile('whitespace', [{src: 'some src files', output: 'some output file'}], './test');
+	//
+	// 		expect(compilationStrategy.compilationLevels.whitespace.compile).toBeCalledTimes(1);
+	// 		expect(compilationStrategy.compilationLevels.whitespace.compile)
+	// 			.toHaveBeenCalledWith([{src: 'some src files', output: 'some output file'}], './test', FsStreamService);
+	//
+	// 	});
+	//
+	// });
 
 });

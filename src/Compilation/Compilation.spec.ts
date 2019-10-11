@@ -1,19 +1,18 @@
-import {FsService} from "../../FsService/FsService";
-import GoogleClosureCompileMock from "../../GoogleClosureCompiler/GoogleClosureCompileMock";
-import {Advanced} from "./Advanced";
-import {FsStreamServiceMock} from "../../FsStreamService/FsStreamServiceMock";
+import {FsService} from "../FsService/FsService";
+import GoogleClosureCompileMock from "../GoogleClosureCompiler/GoogleClosureCompileMock";
+import {Compilation} from "./Compilation";
+import {FsStreamServiceMock} from "../FsStreamService/FsStreamServiceMock";
 
+describe("Compilation", () => {
 
-describe("Advanced", () => {
-
-	let advanced: Advanced;
-	let googleClosureCompileMock: GoogleClosureCompileMock;
+	let closureCompiler: any;
+	let compilation: Compilation;
 
 	beforeEach(() => {
 
-		googleClosureCompileMock = new GoogleClosureCompileMock();
+		closureCompiler = new GoogleClosureCompileMock();
 
-		advanced = new Advanced(googleClosureCompileMock);
+		compilation = new Compilation(closureCompiler);
 
 	});
 
@@ -21,7 +20,7 @@ describe("Advanced", () => {
 
 		it("will assign google compiler", () => {
 
-			expect(advanced.closureCompiler).toEqual(googleClosureCompileMock);
+			expect(compilation.closureCompiler).toEqual(closureCompiler);
 
 		});
 
@@ -37,10 +36,7 @@ describe("Advanced", () => {
 
 				FsService.createDirectory = jest.fn();
 
-				advanced.compile([{
-					src: 'some src files',
-					output: 'some output file'
-				}], './output', FsStreamServiceMock);
+				compilation.compile([{src: 'some src files', output: 'some output file'}], './output', FsStreamServiceMock);
 
 				expect(FsService.createDirectory).toHaveBeenCalledWith('./output');
 
@@ -54,12 +50,10 @@ describe("Advanced", () => {
 
 				expect(() => {
 
-					advanced.compile([{
-						src: '../test.js',
-						output: 'some output file'
-					}], './output', FsStreamServiceMock);
+					compilation.compile([{src: '../test.js', output: 'some output file'}], './output', FsStreamServiceMock);
 
 				}).toThrow('Something went wrong');
+
 
 			});
 
@@ -73,7 +67,7 @@ describe("Advanced", () => {
 
 				expect(() => {
 
-					advanced.compile([{src: '../test1.js', output: 'test.js'}], './output', FsStreamServiceMock);
+					compilation.compile([{src: '../test1.js', output: 'test.js'}], './output', FsStreamServiceMock);
 
 				}).toThrow('Exiting with code 1 error: something went wrong');
 
@@ -87,7 +81,7 @@ describe("Advanced", () => {
 
 				expect(() => {
 
-					advanced.compile([{
+					compilation.compile([{
 						src: 'some src files',
 						output: 'some output files'
 					}], './output', FsStreamServiceMock);
@@ -100,11 +94,11 @@ describe("Advanced", () => {
 
 		it("will call run on google closure compiler", () => {
 
-			googleClosureCompileMock.run = jest.fn();
+			closureCompiler.run = jest.fn();
 
-			advanced.compile([{src: 'some src files', output: 'some output file'}], './output', FsStreamServiceMock);
+			compilation.compile([{src: 'some src files', output: 'some output file'}], './output', FsStreamServiceMock);
 
-			expect(advanced.closureCompiler.run).toHaveBeenCalledWith([{src: 'ab'}], expect.any(Function));
+			expect(compilation.closureCompiler.run).toHaveBeenCalledWith([{src: 'ab'}], expect.any(Function));
 
 		});
 
