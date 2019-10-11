@@ -10,7 +10,6 @@ export default class CompilationStrategy {
 
 	constructor() {
 
-		//TODO need to add whitespace.
 		this.compilationLevels = {
 			simple: (files: File[], outputDestination: string, streamService: FsStreamService) =>
 				this.simple(files, outputDestination, new ClosureCompiler({
@@ -19,6 +18,10 @@ export default class CompilationStrategy {
 			advanced: (files: File[], outputDestination: string, streamService: FsStreamService) =>
 				this.advanced(files, outputDestination, new ClosureCompiler({
 					compilation_level: "ADVANCED_OPTIMIZATIONS"
+				}), streamService),
+			whitespace: (files: File[], outputDestination: string, streamService: FsStreamService) =>
+				this.whitespace(files, outputDestination, new ClosureCompiler({
+					compilation_level: "WHITESPACE_ONLY"
 				}), streamService)
 		}
 
@@ -40,6 +43,14 @@ export default class CompilationStrategy {
 	}
 
 	private advanced(files: File[], outputDestination: string, closureCompiler: any, streamService: FsStreamService) {
+
+		const compilation = new Compilation(closureCompiler);
+
+		return compilation.compile(files, outputDestination, streamService);
+
+	}
+
+	private whitespace(files: File[], outputDestination: string, closureCompiler: any, streamService: FsStreamService) {
 
 		const compilation = new Compilation(closureCompiler);
 

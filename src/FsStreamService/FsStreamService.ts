@@ -4,7 +4,6 @@ import {Readable} from "stream";
 
 const fs = require('fs');
 
-//TODO maybe export default.
 export default class FsStreamService {
 
 	private readableStream: ReadableStream;

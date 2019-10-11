@@ -12,7 +12,8 @@ describe("CompilationStrategy", () => {
 
 		compilationStrategy.compilationLevels = {
 			simple: jest.fn(),
-			advanced: jest.fn()
+			advanced: jest.fn(),
+			whitespace: jest.fn()
 		};
 
 	});
@@ -51,18 +52,20 @@ describe("CompilationStrategy", () => {
 
 	});
 
-	// describe("when asked to compile whitespace", () => {
-	//
-	// 	it("will call compile on the whitespace class", () => {
-	//
-	// 		compilationStrategy.compile('whitespace', [{src: 'some src files', output: 'some output file'}], './test');
-	//
-	// 		expect(compilationStrategy.compilationLevels.whitespace.compile).toBeCalledTimes(1);
-	// 		expect(compilationStrategy.compilationLevels.whitespace.compile)
-	// 			.toHaveBeenCalledWith([{src: 'some src files', output: 'some output file'}], './test', FsStreamService);
-	//
-	// 	});
-	//
-	// });
+	describe("when asked to compile whitespace", () => {
+
+		it("will call compile on the whitespace class", () => {
+
+			compilationStrategy.compile(CompilationLevel.Whitespace, [{
+				src: 'some src files', output: 'some output file'
+			}], './test');
+
+			expect(compilationStrategy.compilationLevels.whitespace).toBeCalledTimes(1);
+			expect(compilationStrategy.compilationLevels.whitespace)
+				.toHaveBeenCalledWith([{src: 'some src files', output: 'some output file'}], './test', FsStreamService);
+
+		});
+
+	});
 
 });
