@@ -24,12 +24,12 @@ describe("CompilationStrategy", () => {
 
 			compilationStrategy.compile(CompilationLevel.Advanced, [{
 				src: 'some src files',
-				output: 'some output file'
+				outputFile: 'some output file'
 			}], './test');
 
 			expect(compilationStrategy.compilationLevels.advanced).toBeCalledTimes(1);
 			expect(compilationStrategy.compilationLevels.advanced)
-				.toHaveBeenCalledWith([{src: 'some src files', output: 'some output file'}], './test', FsStreamService);
+				.toHaveBeenCalledWith([{src: 'some src files', outputFile: 'some output file'}], './test', FsStreamService);
 
 		});
 
@@ -41,12 +41,12 @@ describe("CompilationStrategy", () => {
 
 			compilationStrategy.compile(CompilationLevel.Simple, [{
 				src: 'some src files',
-				output: 'some output file'
+				outputFile: 'some output file'
 			}], './test');
 
 			expect(compilationStrategy.compilationLevels.simple).toBeCalledTimes(1);
 			expect(compilationStrategy.compilationLevels.simple)
-				.toHaveBeenCalledWith([{src: 'some src files', output: 'some output file'}], './test', FsStreamService);
+				.toHaveBeenCalledWith([{src: 'some src files', outputFile: 'some output file'}], './test', FsStreamService);
 
 		});
 
@@ -57,12 +57,12 @@ describe("CompilationStrategy", () => {
 		it("will call compile on the whitespace class", () => {
 
 			compilationStrategy.compile(CompilationLevel.Whitespace, [{
-				src: 'some src files', output: 'some output file'
+				src: 'some src files', outputFile: 'some output file'
 			}], './test');
 
 			expect(compilationStrategy.compilationLevels.whitespace).toBeCalledTimes(1);
 			expect(compilationStrategy.compilationLevels.whitespace)
-				.toHaveBeenCalledWith([{src: 'some src files', output: 'some output file'}], './test', FsStreamService);
+				.toHaveBeenCalledWith([{src: 'some src files', outputFile: 'some output file'}], './test', FsStreamService);
 
 		});
 

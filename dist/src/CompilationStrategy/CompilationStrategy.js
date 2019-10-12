@@ -7,37 +7,37 @@ var CompilationStrategy = /** @class */ (function () {
     function CompilationStrategy() {
         var _this = this;
         this.compilationLevels = {
-            simple: function (files, outputDestination, streamService) {
-                return _this.simple(files, outputDestination, new ClosureCompiler({
+            simple: function (files, outputDirectory, streamService) {
+                return _this.simple(files, outputDirectory, new ClosureCompiler({
                     compilation_level: "SIMPLE_OPTIMIZATIONS"
                 }), streamService);
             },
-            advanced: function (files, outputDestination, streamService) {
-                return _this.advanced(files, outputDestination, new ClosureCompiler({
+            advanced: function (files, outputDirectory, streamService) {
+                return _this.advanced(files, outputDirectory, new ClosureCompiler({
                     compilation_level: "ADVANCED_OPTIMIZATIONS"
                 }), streamService);
             },
-            whitespace: function (files, outputDestination, streamService) {
-                return _this.whitespace(files, outputDestination, new ClosureCompiler({
+            whitespace: function (files, outputDirectory, streamService) {
+                return _this.whitespace(files, outputDirectory, new ClosureCompiler({
                     compilation_level: "WHITESPACE_ONLY"
                 }), streamService);
             }
         };
     }
-    CompilationStrategy.prototype.compile = function (compilationLevel, files, outputDestination) {
-        return this.compilationLevels[compilationLevel](files, outputDestination, FsStreamService_1.default);
+    CompilationStrategy.prototype.compile = function (compilationLevel, files, outputDirectory) {
+        return this.compilationLevels[compilationLevel](files, outputDirectory, FsStreamService_1.default);
     };
-    CompilationStrategy.prototype.simple = function (files, outputDestination, closureCompiler, streamService) {
+    CompilationStrategy.prototype.simple = function (files, outputDirectory, closureCompiler, streamService) {
         var compilation = new Compilation_1.Compilation(closureCompiler);
-        return compilation.compile(files, outputDestination, streamService);
+        return compilation.compile(files, outputDirectory, streamService);
     };
-    CompilationStrategy.prototype.advanced = function (files, outputDestination, closureCompiler, streamService) {
+    CompilationStrategy.prototype.advanced = function (files, outputDirectory, closureCompiler, streamService) {
         var compilation = new Compilation_1.Compilation(closureCompiler);
-        return compilation.compile(files, outputDestination, streamService);
+        return compilation.compile(files, outputDirectory, streamService);
     };
-    CompilationStrategy.prototype.whitespace = function (files, outputDestination, closureCompiler, streamService) {
+    CompilationStrategy.prototype.whitespace = function (files, outputDirectory, closureCompiler, streamService) {
         var compilation = new Compilation_1.Compilation(closureCompiler);
-        return compilation.compile(files, outputDestination, streamService);
+        return compilation.compile(files, outputDirectory, streamService);
     };
     return CompilationStrategy;
 }());
