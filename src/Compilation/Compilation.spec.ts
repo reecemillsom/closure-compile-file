@@ -36,7 +36,7 @@ describe("Compilation", () => {
 
 				FsService.createDirectory = jest.fn();
 
-				compilation.compile([{src: 'some src files', output: 'some output file'}], './output', FsStreamServiceMock);
+				compilation.compile([{src: 'some src files', outputFile: 'some output file'}], './output', FsStreamServiceMock);
 
 				expect(FsService.createDirectory).toHaveBeenCalledWith('./output');
 
@@ -50,7 +50,7 @@ describe("Compilation", () => {
 
 				expect(() => {
 
-					compilation.compile([{src: '../test.js', output: 'some output file'}], './output', FsStreamServiceMock);
+					compilation.compile([{src: '../test.js', outputFile: 'some output file'}], './output', FsStreamServiceMock);
 
 				}).toThrow('Something went wrong');
 
@@ -67,7 +67,7 @@ describe("Compilation", () => {
 
 				expect(() => {
 
-					compilation.compile([{src: '../test1.js', output: 'test.js'}], './output', FsStreamServiceMock);
+					compilation.compile([{src: '../test1.js', outputFile: 'test.js'}], './output', FsStreamServiceMock);
 
 				}).toThrow('Exiting with code 1 error: something went wrong');
 
@@ -83,7 +83,7 @@ describe("Compilation", () => {
 
 					compilation.compile([{
 						src: 'some src files',
-						output: 'some output files'
+						outputFile: 'some output files'
 					}], './output', FsStreamServiceMock);
 
 				}).not.toThrow('Exiting with code 1 error: something went wrong');
@@ -96,7 +96,7 @@ describe("Compilation", () => {
 
 			closureCompiler.run = jest.fn();
 
-			compilation.compile([{src: 'some src files', output: 'some output file'}], './output', FsStreamServiceMock);
+			compilation.compile([{src: 'some src files', outputFile: 'some output file'}], './output', FsStreamServiceMock);
 
 			expect(compilation.closureCompiler.run).toHaveBeenCalledWith([{src: 'ab'}], expect.any(Function));
 

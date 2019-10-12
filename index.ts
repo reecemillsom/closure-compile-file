@@ -7,10 +7,10 @@ export enum CompilationLevel {
 	Advanced = 'advanced'
 }
 
-export function compile(compilationLevel: CompilationLevel, files: File[], outputDestination: string) {
+export function compile(compilationLevel: CompilationLevel, files: File[], outputDirectory: string) {
 
 	const compilationStrategy = new CompilationStrategy();
 
-	return compilationStrategy.compile(compilationLevel, files, outputDestination);
+	return compilationStrategy.compile(compilationLevel, files, outputDirectory);
 
 }

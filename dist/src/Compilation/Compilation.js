@@ -12,7 +12,7 @@ var Compilation = /** @class */ (function () {
             FsService_1.default.createDirectory(outputDestination);
         }
         files.forEach(function (file) {
-            var streamService = new StreamService(file.src, outputDestination + "/" + file.output);
+            var streamService = new StreamService(file.src, outputDestination + "/" + file.outputFile);
             streamService.readFileContents(function (error, data) {
                 if (error) {
                     throw new Error(error);

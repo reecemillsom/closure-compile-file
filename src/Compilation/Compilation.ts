@@ -2,8 +2,8 @@ import FsService from "../FsService/FsService";
 import FsStreamService from "../FsStreamService/FsStreamService";
 
 export interface File {
-	src: string; //TODO should be called srcFile
-	output: string; //TODO should be called outputFile
+	src: string;
+	outputFile: string;
 }
 
 export class Compilation {
@@ -16,7 +16,7 @@ export class Compilation {
 
 	}
 
-	compile(files: File[], outputDestination: string, StreamService: any) { //TODO why is this not type FsStreamService.
+	compile(files: File[], outputDestination: string, StreamService: any) {
 
 		if (!FsService.doesPathExist(outputDestination)) {
 
@@ -26,9 +26,9 @@ export class Compilation {
 
 		files.forEach((file: File) => {
 
-			const streamService = new StreamService(file.src, `${outputDestination}/${file.output}`);
+			const streamService = new StreamService(file.src, `${outputDestination}/${file.outputFile}`);
 
-			streamService.readFileContents((error: string | null, data: string[]) => { //TODO why are these any's??
+			streamService.readFileContents((error: string | null, data: string[]) => {
 
 				if (error) {
 
